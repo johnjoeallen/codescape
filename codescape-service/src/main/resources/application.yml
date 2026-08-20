@@ -1,0 +1,21 @@
+server:
+  port: 8085
+
+codescape:
+  # Root of CodeScape's managed-data area. Defaults to ~/.codescape.
+  home: ${CODESCAPE_HOME:${user.home}/.codescape}
+
+spring:
+  application:
+    name: codescape-service
+  datasource:
+    url: jdbc:h2:file:${codescape.home}/db/codescape;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+logging:
+  level:
+    dev.codescape: INFO

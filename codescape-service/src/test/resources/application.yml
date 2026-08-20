@@ -1,0 +1,9 @@
+codescape:
+  home: ${java.io.tmpdir}/codescape-test-${random.uuid}
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:codescape-test;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

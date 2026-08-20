@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Launches the CodeScape MCP adapter. Talks to codescape-service over HTTP
+# (see $CODESCAPE_SERVICE_URL, default http://localhost:8085).
+set -euo pipefail
+
+DIST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+JAR="$(ls "$DIST_DIR"/lib/codescape-mcp-*.jar | head -n1)"
+
+exec java -jar "$JAR" "$@"

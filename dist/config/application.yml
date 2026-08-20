@@ -1,0 +1,13 @@
+# Default config for a packaged CodeScape release. Copy this file and edit
+# to override; codescape-service loads it via --spring.config.additional-location.
+
+server:
+  port: 8085
+
+codescape:
+  # Root of CodeScape's managed-data area (db, index, sources, workspaces).
+  home: ${CODESCAPE_HOME:${user.home}/.codescape}
+
+logging:
+  level:
+    dev.codescape: INFO

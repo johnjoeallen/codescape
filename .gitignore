@@ -59,6 +59,7 @@ out/
 .springBeans
 .sts4-cache/
 bin/
+!/dist/bin/
 
 # IDE - VS Code
 .vscode/

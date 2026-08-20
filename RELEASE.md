@@ -80,7 +80,7 @@ local-first, developer-machine-scoped design (see
 ## Installation instructions (target, for `INSTALL.md`)
 
 ```
-# 1. Prerequisites: Java 21+ on PATH.
+# 1. Prerequisites: Java 25+ on PATH.
 java -version
 
 # 2. Unzip the release.

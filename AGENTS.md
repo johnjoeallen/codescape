@@ -325,6 +325,7 @@ model.
 These are the current (speculative, subject to revision) technology
 choices for CodeScape:
 
+- **Language/runtime**: Java 25 (current LTS), `maven.compiler.release=25`.
 - **Database**: [H2](https://www.h2database.com/), embedded, file-backed
   under `~/.codescape/`. Chosen for a zero-install, single-process local
   deployment — no external database server required. Stores source/
@@ -333,9 +334,14 @@ choices for CodeScape:
   index (or index-per-source) under `~/.codescape/`. Chosen for the same
   zero-install reasoning as H2, and because it's the standard embeddable
   full-text/code search engine on the JVM.
-- **Service**: Spring Boot, packaged as a single runnable jar.
-- **MCP adapter**: separate process/jar, thin JSON-RPC 2.0 transport over
-  the Spring Boot service's HTTP API (see [Process architecture](#process-architecture)).
+- **Service**: Spring Boot 4 (Spring Framework 7), packaged as a single
+  runnable jar. Module: `codescape-service`.
+- **MCP adapter**: separate process/jar (`codescape-mcp`), thin JSON-RPC
+  2.0 transport over the Spring Boot service's HTTP API (see
+  [Process architecture](#process-architecture)). No framework dependency
+  — JDK `HttpClient` only, to keep it a genuinely thin transport layer.
+- **Build**: Maven multi-module (`pom.xml` parent, `codescape-service`,
+  `codescape-mcp`).
 
 Both H2 and Lucene data live under `~/.codescape/` alongside managed
 source copies — see [Release packaging](./RELEASE.md) for how this maps to
@@ -349,3 +355,18 @@ the installed layout.
 - Model new source-type support as capabilities, not type-code branches.
 - Keep the MCP adapter a thin transport layer; put source/Git/GitHub/index/
   build/workspace logic in the Spring Boot service.
+
+### Branching and pull requests (default workflow)
+
+By default, this repository uses a **PR-only** model for `main`:
+
+- Do not commit or push directly to `main`.
+- Create a feature/topic branch for any change, push it, and open a pull
+  request against `main`.
+- `main` is protected: it requires a passing [CI workflow](.github/workflows/ci.yml)
+  and cannot be pushed to directly (see branch protection settings on the
+  GitHub repo).
+- Merge via the PR once checks pass and it's been reviewed/approved.
+
+This is the default; only bypass it if the user explicitly asks for a
+direct-to-main commit/push for a specific change.
