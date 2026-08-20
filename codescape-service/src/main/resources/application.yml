@@ -1,0 +1,30 @@
+server:
+  port: 8085
+
+codescape:
+  # Root of CodeScape's managed-data area. Defaults to ~/.codescape.
+  home: ${CODESCAPE_HOME:${user.home}/.codescape}
+
+spring:
+  application:
+    name: codescape-service
+  datasource:
+    # PostgreSQL compatibility mode: keeps SQL/type behavior close to
+    # Postgres in case CodeScape ever needs to target a real Postgres
+    # instance later, without changing application code.
+    url: jdbc:h2:file:${codescape.home}/db/codescape;MODE=PostgreSQL;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+  jpa:
+    # Hibernate's dialect auto-detection falls back to H2Dialect even in
+    # MODE=PostgreSQL, so this must be set explicitly to actually get
+    # Postgres-compatible SQL generation. The "no longer supported"/
+    # "does not need to be specified" warnings this produces are
+    # misleading — see AGENTS.md.
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+logging:
+  level:
+    dev.codescape: INFO

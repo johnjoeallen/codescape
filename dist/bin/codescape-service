@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Launches the CodeScape repository-management service.
+set -euo pipefail
+
+DIST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+JAR="$(ls "$DIST_DIR"/lib/codescape-service-*.jar | head -n1)"
+
+exec java -jar "$JAR" \
+  --spring.config.additional-location="file:$DIST_DIR/config/" \
+  "$@"

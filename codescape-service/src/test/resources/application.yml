@@ -1,0 +1,10 @@
+codescape:
+  home: ${java.io.tmpdir}/codescape-test-${random.uuid}
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:codescape-test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
