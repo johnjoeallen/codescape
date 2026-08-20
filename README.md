@@ -35,7 +35,18 @@ build capability without ever touching the developer-owned original.
   Git ref/commit, where applicable) to support fast search across sources.
 
 See [AGENTS.md](./AGENTS.md) for the full architecture reference used by
-coding agents working in this repo.
+coding agents working in this repo, and [RELEASE.md](./RELEASE.md) for how
+CodeScape is packaged and installed.
+
+## Data storage
+
+- **Metadata** (sources, branches, snapshots, workspaces): embedded
+  [H2](https://www.h2database.com/) database under `~/.codescape/db/`.
+- **Search**: embedded [Apache Lucene](https://lucene.apache.org/) index
+  under `~/.codescape/index/`.
+
+Both are zero-install, in-process — no external database or search
+server is required to run CodeScape.
 
 ## Architecture at a glance
 

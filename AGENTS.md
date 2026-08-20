@@ -320,6 +320,27 @@ richer capabilities via `git` and optionally `gh`; plain folders still
 participate in the same browsing, Lucene search, grouping, and workspace
 model.
 
+## Technology choices
+
+These are the current (speculative, subject to revision) technology
+choices for CodeScape:
+
+- **Database**: [H2](https://www.h2database.com/), embedded, file-backed
+  under `~/.codescape/`. Chosen for a zero-install, single-process local
+  deployment — no external database server required. Stores source/
+  workspace/branch/snapshot metadata, not file content.
+- **Indexing**: [Apache Lucene](https://lucene.apache.org/), embedded, one
+  index (or index-per-source) under `~/.codescape/`. Chosen for the same
+  zero-install reasoning as H2, and because it's the standard embeddable
+  full-text/code search engine on the JVM.
+- **Service**: Spring Boot, packaged as a single runnable jar.
+- **MCP adapter**: separate process/jar, thin JSON-RPC 2.0 transport over
+  the Spring Boot service's HTTP API (see [Process architecture](#process-architecture)).
+
+Both H2 and Lucene data live under `~/.codescape/` alongside managed
+source copies — see [Release packaging](./RELEASE.md) for how this maps to
+the installed layout.
+
 ## Working in this repo
 
 - Never perform state-changing operations (write, checkout, reset, clean,

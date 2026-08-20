@@ -131,7 +131,21 @@ developer's original source.
 **Exit criteria:** long-running use doesn't leak disk/index state; every
 mutating operation is attributable and confined to managed storage.
 
-## Stage 10 — Multi-source & scale
+## Stage 10 — Release packaging
+
+- Package `codescape-service` (Spring Boot, H2 + Lucene embedded) and
+  `codescape-mcp` as separate executable jars from a shared build.
+- Assemble the release zip (jars, launcher scripts, default config, docs)
+  per [RELEASE.md](./RELEASE.md).
+- Wire up CI to build, tag, and publish the zip as a GitHub Release asset
+  on `vX.Y.Z` tags.
+- Write `INSTALL.md` (unzip + run, Java-only prerequisite).
+
+**Exit criteria:** a clean machine with only a JVM installed can unzip a
+tagged release, start both processes, and connect an MCP client — no
+external database or search server setup required.
+
+## Stage 11 — Multi-source & scale
 
 - Cross-source search and grouping (e.g. related repos/services).
 - Performance tuning for large repos (incremental indexing, partial
