@@ -3,7 +3,8 @@ codescape:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:codescape-test;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:codescape-test;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop

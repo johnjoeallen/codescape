@@ -327,9 +327,13 @@ choices for CodeScape:
 
 - **Language/runtime**: Java 25 (current LTS), `maven.compiler.release=25`.
 - **Database**: [H2](https://www.h2database.com/), embedded, file-backed
-  under `~/.codescape/`. Chosen for a zero-install, single-process local
-  deployment — no external database server required. Stores source/
-  workspace/branch/snapshot metadata, not file content.
+  under `~/.codescape/`, running in **PostgreSQL compatibility mode**
+  (`MODE=PostgreSQL` on the JDBC URL, Hibernate `PostgreSQLDialect`).
+  Chosen for a zero-install, single-process local deployment — no external
+  database server required — while keeping SQL/type behavior close enough
+  to Postgres that a future move to a real Postgres instance wouldn't
+  require application changes. Stores source/workspace/branch/snapshot
+  metadata, not file content.
 - **Indexing**: [Apache Lucene](https://lucene.apache.org/), embedded, one
   index (or index-per-source) under `~/.codescape/`. Chosen for the same
   zero-install reasoning as H2, and because it's the standard embeddable
