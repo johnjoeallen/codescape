@@ -1,14 +1,16 @@
 # IDE setup (VS Code, IntelliJ IDEA)
 
-!!! warning "Target configuration, not yet functional"
-    This page documents the configuration shape an IDE needs to *launch*
-    `codescape-mcp` — but `codescape-mcp` doesn't implement the actual MCP
-    stdio JSON-RPC protocol yet (that's [Roadmap](ROADMAP.md) Stage 8,
-    not started). Today it's a CLI stub: an IDE can spawn the process, but
-    it won't respond to real MCP tool calls — it just prints a usage
-    message and exits unless given a `list`/`add` argument directly. Set
-    this up now if you want the config ready to go, not to get working
-    tools today.
+!!! info "One tool supported so far: `list_sources`"
+    `codescape-mcp` speaks real MCP over stdio now (newline-delimited
+    JSON-RPC 2.0 — `initialize`, `tools/list`, `tools/call`), but only one
+    tool is wired up: **`list_sources`**, a read-only list of what's
+    registered in `codescape-service`. That's it — no search, no
+    registering a source through MCP yet, no Git/GitHub/build tools. The
+    rest of [Roadmap](ROADMAP.md) Stage 8's surface still needs the
+    backend capabilities (search indexing, etc.) it depends on. The config
+    below is fully real and usable today for `list_sources`; expect more
+    tools to show up in `tools/list` as they land, with no config changes
+    needed on your end.
 
 ## How this fits together
 
@@ -130,10 +132,13 @@ On Windows, use the `.bat` launcher path as in the VS Code example above.
 
 ## Troubleshooting
 
-- **Nothing happens / tools never appear**: expected for now — see the
-  warning at the top of this page. Once Stage 8 lands, check this
-  section again.
-- **"service reachable" but no tools**: same as above.
+- **Only `list_sources` shows up in the tool list**: expected — see the
+  callout at the top of this page. That's every tool that exists so far.
+- **`list_sources` returns an error / empty result**: confirm
+  `codescape-service` is actually running (`curl http://localhost:8085/api/sources`
+  should return `[]` or your registered sources) and that
+  `CODESCAPE_SERVICE_URL` matches its actual port if you changed it from
+  the default.
 - **Process fails to start at all**: run the exact `command`/`args` in a
   terminal yourself first. If it fails there, the IDE can't launch it
   either — this isolates IDE-config problems from `codescape-mcp`
