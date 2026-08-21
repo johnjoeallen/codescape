@@ -5,13 +5,14 @@ import java.net.URI;
 /**
  * Entry point for the CodeScape MCP adapter.
  *
- * <p>This is a pre-Stage-8 scaffold: it drives {@link CodescapeServiceClient}
- * from plain CLI args ({@code list} / {@code add <name> <sourcePath>
- * <type>}) rather than real MCP stdio JSON-RPC framing, so the thin-client
- * surface can be exercised before the actual MCP tool/transport layer lands
- * in Stage 8 (see ROADMAP.md). The adapter still does no source/Git/GitHub/
- * index/build/workspace logic of its own (see AGENTS.md) — every action
- * here is a straight pass-through to codescape-service.
+ * <p>With no arguments, runs the real MCP stdio server ({@link
+ * McpStdioServer}) — this is what an IDE's MCP config should point at
+ * (see docs/ide-setup.md). {@code list}/{@code add} remain available as
+ * CLI subcommands, a pre-Stage-8 scaffold for exercising {@link
+ * CodescapeServiceClient} directly without a real MCP client. The adapter
+ * does no source/Git/GitHub/index/build/workspace logic of its own (see
+ * AGENTS.md) — every action here is a straight pass-through to
+ * codescape-service.
  */
 public final class CodescapeMcpMain {
 
@@ -23,14 +24,7 @@ public final class CodescapeMcpMain {
         CodescapeServiceClient client = new CodescapeServiceClient(serviceUri);
 
         if (args.length == 0) {
-            System.out.println("codescape-mcp: connecting to codescape-service at " + serviceUri);
-            if (client.isReachable()) {
-                System.out.println("codescape-mcp: service reachable. Usage: list | add <name> <sourcePath> <type>");
-            } else {
-                System.err.println("codescape-mcp: could not reach codescape-service at " + serviceUri
-                        + " — start codescape-service first.");
-                System.exit(1);
-            }
+            new McpStdioServer(client).run(System.in, System.out);
             return;
         }
 
