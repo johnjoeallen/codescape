@@ -5,8 +5,8 @@ runnable components: `codescape-service` (the repository-management
 Spring Boot app) and `codescape-mcp` (the MCP adapter). Every zip bundles
 its own minimal JVM (built with `jlink`, native to that platform) under
 `runtime/`, so no external database, search server, or Java install is
-strictly required. The launcher scripts prefer a system Java 25+ on
-`PATH` when one's available, falling back to the bundled runtime
+strictly required. The launcher scripts prefer a compliant system Java
+25+ install when one's available, falling back to the bundled runtime
 otherwise — see [Prerequisites](#prerequisites) for why that's the
 preferred order, not the other way around.
 
@@ -24,14 +24,25 @@ publish platform-specific zips — pick the one for your OS/arch:
 No Intel Mac build currently — see
 [RELEASE.md](RELEASE.md#release-archive-layout) for why.
 
-If a Java 25+ install is on `PATH`, the launcher scripts use it and the
-bundled `runtime/` is never touched. Only when no suitable system Java is
-found do they fall back to `runtime/` — printing a warning first — which
-only runs on the platform it was built for (the wrong platform's zip will
-fail to launch in that fallback case). This order is deliberate: some
-corporate endpoint security software (e.g. Carbon Black) blocks execution
-of unsigned/bundled binaries, so on a locked-down machine a compliant
-system Java install may be the only thing that actually runs.
+The launcher scripts look for a Java 25+ install in this order, using the
+bundled `runtime/` only as a last resort:
+
+1. `--java-home <path>`, e.g. `./bin/codescape-service --java-home /opt/jdk-25`
+2. A `.java-home` file in the install root, written automatically the
+   first time `--java-home` validates successfully — so you only need to
+   pass the flag once; every run after that picks it up on its own.
+3. The `JAVA_HOME` environment variable.
+4. `java` on `PATH`.
+5. The bundled `runtime/` — printing a warning first — which only runs on
+   the platform it was built for (the wrong platform's zip will fail to
+   launch in this fallback case).
+
+This order is deliberate: some corporate endpoint security software
+(e.g. Carbon Black) blocks execution of unsigned/bundled binaries, so on
+a locked-down machine a compliant system Java install may be the only
+thing that actually runs. `--java-home`/`.java-home` exist so you can
+point at one without changing your existing `JAVA_HOME`, which other
+tools may depend on.
 
 ## Install
 

@@ -83,15 +83,29 @@ runtime small (tens of MB, not a full JDK) while making the zip fully
 self-contained.
 
 Launcher scripts (`bin/codescape-service`, `bin/codescape-mcp`, and their
-`.bat` equivalents) prefer a system Java 25+ on `PATH` over the bundled
-`runtime/`, falling back to the bundled runtime — with a warning printed
-to stderr — only when no suitable system Java is found. This is the
-opposite of what you might expect (why ship a runtime and *not* prefer
-it?), but some corporate endpoint security software (e.g. Carbon Black)
-blocks execution of unsigned/bundled binaries, so the bundled JVM may
-simply not be runnable in a locked-down environment even though it's
-present and otherwise correct — a compliant system install doesn't have
-that problem. This also keeps the same scripts working unmodified for
+`.bat` equivalents) pick a Java 25+ install in this order, using the
+bundled `runtime/` only as a last resort:
+
+1. `--java-home <path>` passed on the command line.
+2. A `.java-home` marker file in the install root — written automatically
+   the first time `--java-home` validates successfully, so subsequent
+   runs don't need the flag repeated.
+3. The `JAVA_HOME` environment variable.
+4. `java` on `PATH`.
+5. The bundled `runtime/` — with a warning printed to stderr — only if
+   none of the above resolved to a working Java 25+.
+
+This is the opposite of what you might expect (why ship a runtime and
+*not* prefer it?), but some corporate endpoint security software (e.g.
+Carbon Black) blocks execution of unsigned/bundled binaries, so the
+bundled JVM may simply not be runnable in a locked-down environment even
+though it's present and otherwise correct — a compliant system install
+doesn't have that problem. `--java-home`/`.java-home` exist so a user can
+point at a compliant install without editing their existing `JAVA_HOME`,
+which may be relied on by other tools. The scripts also `cd` into the
+install root on startup, so the marker file (and any other
+install-root-relative behavior) doesn't depend on the caller's working
+directory. All of this keeps the same scripts working unmodified for
 local development straight out of `dist/`, where no `runtime/` directory
 exists at all.
 

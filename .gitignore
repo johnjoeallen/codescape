@@ -68,5 +68,9 @@ bin/
 .DS_Store
 Thumbs.db
 
+# Launcher-script marker file (saved by --java-home; only ever meant to
+# exist in an extracted release, not in dist/bin/ here)
+.java-home
+
 # MkDocs build output
 site/

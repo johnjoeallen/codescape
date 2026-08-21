@@ -1,24 +1,101 @@
 #!/usr/bin/env bash
 # Launches the CodeScape MCP adapter. Talks to codescape-service over HTTP
 # (see $CODESCAPE_SERVICE_URL, default http://localhost:8085).
+#
+# Usage: codescape-mcp [--java-home <path>] [args...]
 set -euo pipefail
 
 DIST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$DIST_DIR"
+
 JAR="$(ls "$DIST_DIR"/lib/codescape-mcp-*.jar | head -n1)"
 
-# Prefer a system Java 25+ over the bundled runtime: some corporate
-# endpoint security tools (e.g. Carbon Black) block execution of
-# unsigned/bundled binaries, so the runtime/ JVM we ship may simply not
-# be runnable in a locked-down environment even though it's present and
-# otherwise correct. A compliant system install doesn't have that
-# problem. Only fall back to the bundled runtime — with a warning —
-# when no suitable system Java is found.
+# Java selection, in priority order:
+#   1. --java-home <path> given on this invocation
+#   2. .java-home marker file (saved by a prior --java-home that validated OK)
+#   3. JAVA_HOME environment variable
+#   4. `java` on PATH
+#   5. the bundled runtime under runtime/, as a last resort (with a warning)
+#
+# A compliant system Java is preferred over the bundled one because some
+# corporate endpoint security software (e.g. Carbon Black) blocks
+# execution of unsigned/bundled binaries — the runtime/ JVM we ship may
+# simply not be runnable in a locked-down environment even though it's
+# present and otherwise correct. --java-home/.java-home exist so a user
+# can point at a compliant install without editing their shell profile's
+# JAVA_HOME, which may be relied on by other tools.
+
+JAVA_HOME_FILE="$DIST_DIR/.java-home"
+
+java_major_version() {
+  "$1" -version 2>&1 | head -n1 | grep -oE '"[0-9]+' | tr -d '"'
+}
+
+is_java_25_plus() {
+  local major
+  major="$(java_major_version "$1" 2>/dev/null || true)"
+  [ -n "$major" ] && [ "$major" -ge 25 ] 2>/dev/null
+}
+
+# Echoes a usable java binary under the given JAVA_HOME-style directory,
+# or fails silently (no output, non-zero exit) if none found.
+resolve_java_home_bin() {
+  local home="$1" candidate
+  for candidate in "$home/bin/java" "$home/bin/java.exe"; do
+    if [ -f "$candidate" ] && is_java_25_plus "$candidate"; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# Strip --java-home/--java-home=<path> out of the args before they reach
+# the jar; keep everything else in original order.
+JAVA_HOME_FLAG=""
+ARGS=()
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --java-home)
+      JAVA_HOME_FLAG="${2:-}"
+      shift 2
+      ;;
+    --java-home=*)
+      JAVA_HOME_FLAG="${1#--java-home=}"
+      shift
+      ;;
+    *)
+      ARGS+=("$1")
+      shift
+      ;;
+  esac
+done
+set -- "${ARGS[@]+"${ARGS[@]}"}"
+
 JAVA_BIN=""
-if command -v java >/dev/null 2>&1; then
-  SYSTEM_JAVA_MAJOR="$(java -version 2>&1 | head -n1 | grep -oE '"[0-9]+' | tr -d '"')"
-  if [ -n "$SYSTEM_JAVA_MAJOR" ] && [ "$SYSTEM_JAVA_MAJOR" -ge 25 ] 2>/dev/null; then
-    JAVA_BIN="java"
+
+if [ -n "$JAVA_HOME_FLAG" ]; then
+  if JAVA_BIN="$(resolve_java_home_bin "$JAVA_HOME_FLAG")"; then
+    printf '%s\n' "$JAVA_HOME_FLAG" > "$JAVA_HOME_FILE"
+    echo "codescape: using Java 25+ at '$JAVA_HOME_FLAG' (saved to $JAVA_HOME_FILE — will be used automatically next time, no need to pass --java-home again)" >&2
+  else
+    echo "codescape: --java-home '$JAVA_HOME_FLAG' doesn't look like a Java 25+ install; ignoring it and checking other options." >&2
   fi
+fi
+
+if [ -z "$JAVA_BIN" ] && [ -f "$JAVA_HOME_FILE" ]; then
+  SAVED_JAVA_HOME="$(head -n1 "$JAVA_HOME_FILE" 2>/dev/null || true)"
+  if [ -n "$SAVED_JAVA_HOME" ]; then
+    JAVA_BIN="$(resolve_java_home_bin "$SAVED_JAVA_HOME" || true)"
+  fi
+fi
+
+if [ -z "$JAVA_BIN" ] && [ -n "${JAVA_HOME:-}" ]; then
+  JAVA_BIN="$(resolve_java_home_bin "$JAVA_HOME" || true)"
+fi
+
+if [ -z "$JAVA_BIN" ] && command -v java >/dev/null 2>&1 && is_java_25_plus java; then
+  JAVA_BIN="java"
 fi
 
 if [ -z "$JAVA_BIN" ]; then
@@ -35,7 +112,7 @@ if [ -z "$JAVA_BIN" ]; then
   fi
 
   if [ -n "$JAVA_BIN" ]; then
-    echo "codescape: no system Java 25+ found on PATH; falling back to the bundled runtime under runtime/. If your environment blocks running bundled/unsigned executables (e.g. Carbon Black or similar endpoint security software), install Java 25+ and make sure 'java' resolves to it on PATH instead." >&2
+    echo "codescape: no system Java 25+ found via --java-home, .java-home, JAVA_HOME, or PATH; falling back to the bundled runtime under runtime/. If your environment blocks running bundled/unsigned executables (e.g. Carbon Black or similar endpoint security software), install Java 25+ and pass --java-home <path>, or set JAVA_HOME/PATH, instead." >&2
   else
     JAVA_BIN="java"
   fi
