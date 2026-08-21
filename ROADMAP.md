@@ -13,7 +13,7 @@ capability, and no regressions to earlier stages' safety guarantees
 ## Stage 0 — Project scaffolding
 
 - Spring Boot service skeleton (module layout, config, logging).
-- `~/.codescape/` root layout: `sources/`, config store.
+- `~/.codescape/` root layout: `content/`, config store.
 - `SourceCollection` domain model (id, name, type, sourcePath,
   managedPath, capabilities) with persistence.
 - Basic CLI/REST entrypoint to register and list sources (no operations
@@ -25,7 +25,7 @@ copied or mutated yet.
 ## Stage 1 — Filesystem capability (plain folder sources)
 
 - Managed-copy creation: controlled snapshot/copy of a plain directory
-  into `~/.codescape/sources/<name>/base/`.
+  into `~/.codescape/content/<name>/base/`.
 - Read-only enforcement against the original `sourcePath`.
 - Filesystem browsing API (list/read files) against the managed copy.
 - Capability flags: `FILESYSTEM`.
@@ -70,7 +70,7 @@ inside a workspace, with results surfaced via the API.
 
 - Git-aware source registration: read-only inspection of the original
   repo (remote URL, default branch, HEAD) during registration.
-- Managed clone into `~/.codescape/sources/<name>/base/` (default branch).
+- Managed clone into `~/.codescape/content/<name>/base/` (default branch).
 - Git operations (`fetch`, `checkout`, `switch`, `reset`, `diff`, `log`,
   `blame`, `clean`) implemented **only** against managed paths.
 - Explicit guard layer preventing any state-changing Git call from ever
@@ -135,15 +135,18 @@ mutating operation is attributable and confined to managed storage.
 
 - Package `codescape-service` (Spring Boot, H2 + Lucene embedded) and
   `codescape-mcp` as separate executable jars from a shared build.
-- Assemble the release zip (jars, launcher scripts, default config, docs)
-  per [RELEASE.md](./RELEASE.md).
+- Build a custom `jlink` runtime (module list derived from the jars via
+  `jdeps`) and bundle it into the release zip so no system JVM is
+  required.
+- Assemble the release zip (jars, bundled runtime, launcher scripts,
+  default config, docs) per [RELEASE.md](./RELEASE.md).
 - Wire up CI to build, tag, and publish the zip as a GitHub Release asset
   on `vX.Y.Z` tags.
-- Write `INSTALL.md` (unzip + run, Java-only prerequisite).
+- Write `INSTALL.md` (unzip + run, no prerequisites).
 
-**Exit criteria:** a clean machine with only a JVM installed can unzip a
+**Exit criteria:** a clean machine with nothing preinstalled can unzip a
 tagged release, start both processes, and connect an MCP client — no
-external database or search server setup required.
+JVM, external database, or search server setup required.
 
 ## Stage 11 — Multi-source & scale
 

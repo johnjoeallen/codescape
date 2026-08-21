@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * A registered source collection: the developer-owned {@code sourcePath} is
  * read-only input; all mutation happens against {@code managedPath}, a copy
- * CodeScape owns under {@code ~/.codescape/sources/<name>/}. See AGENTS.md
+ * CodeScape owns under {@code ~/.codescape/content/<name>/}. See AGENTS.md
  * for the full safety model.
  */
 @Entity
@@ -32,7 +32,7 @@ public class SourceCollection {
     /** Developer-owned original. Never written to. */
     private String sourcePath;
 
-    /** CodeScape-owned copy under {@code ~/.codescape/sources/<name>/}. */
+    /** CodeScape-owned copy under {@code ~/.codescape/content/<name>/}. */
     private String managedPath;
 
     @ElementCollection(fetch = jakarta.persistence.FetchType.EAGER)
