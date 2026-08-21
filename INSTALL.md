@@ -2,17 +2,16 @@
 
 CodeScape ships as a zip containing two independently runnable components:
 `codescape-service` (the repository-management Spring Boot app) and
-`codescape-mcp` (the MCP adapter). Both need only a JVM — no external
-database or search server is required, since the H2 metadata store and
-Lucene index are embedded in `codescape-service`.
+`codescape-mcp` (the MCP adapter). The zip bundles its own minimal JVM
+(built with `jlink`) under `runtime/`, so no external database, search
+server, or Java install is required — the launcher scripts use the
+bundled runtime automatically.
 
 ## Prerequisites
 
-- Java 25 or newer on `PATH`.
-
-```
-java -version
-```
+None. If you'd rather use a system JVM (Java 25+), remove or rename the
+`runtime/` directory and the launcher scripts fall back to `java` on
+`PATH`.
 
 ## Install
 
@@ -24,7 +23,7 @@ cd codescape
 ## Run
 
 Start the repository-management service first. On first run it creates
-`~/.codescape/` (db, index, sources, workspaces):
+`~/.codescape/` (db, index, content, workspaces):
 
 ```
 ./bin/codescape-service

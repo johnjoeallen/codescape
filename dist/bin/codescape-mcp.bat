@@ -10,4 +10,7 @@ if "%JAR%"=="" (
   exit /b 1
 )
 
-java -jar "%JAR%" %*
+set "JAVA_BIN=java"
+if exist "%DIST_DIR%\runtime\bin\java.exe" set "JAVA_BIN=%DIST_DIR%\runtime\bin\java.exe"
+
+"%JAVA_BIN%" -jar "%JAR%" %*

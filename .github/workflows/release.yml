@@ -36,7 +36,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           set -euo pipefail
-          STAGE="staging/codescape-${VERSION}"
+          STAGE="$(pwd)/staging/codescape-${VERSION}"
           mkdir -p "$STAGE/bin" "$STAGE/lib" "$STAGE/config"
 
           cp dist/bin/* "$STAGE/bin/"
@@ -47,6 +47,21 @@ jobs:
           cp codescape-mcp/target/codescape-mcp-*.jar "$STAGE/lib/"
 
           cp LICENSE README.md AGENTS.md INSTALL.md "$STAGE/"
+
+          # jdeps can't see deps nested under BOOT-INF/lib/ in a Spring Boot
+          # fat jar, so explode both jars and point it at the real classpath.
+          EXPLODE="$(mktemp -d)"
+          mkdir -p "$EXPLODE/service" "$EXPLODE/mcp"
+          (cd "$EXPLODE/service" && jar xf "$STAGE"/lib/codescape-service-*.jar)
+          (cd "$EXPLODE/mcp" && jar xf "$STAGE"/lib/codescape-mcp-*.jar)
+          CP="$(find "$EXPLODE" -name '*.jar' | paste -sd: -)"
+          MODULES="$(jdeps -q --multi-release=25 --print-module-deps --ignore-missing-deps \
+            --class-path "$CP" --recursive \
+            "$EXPLODE/service/BOOT-INF/classes" "$EXPLODE/mcp")"
+          # jdk.crypto.ec is required for TLS but loaded via SPI, so jdeps can't see it.
+          jlink --add-modules "${MODULES},jdk.crypto.ec" \
+            --output "$STAGE/runtime" \
+            --strip-debug --no-header-files --no-man-pages --compress=2
 
           (cd staging && zip -r "../codescape-${VERSION}.zip" "codescape-${VERSION}")
           sha256sum "codescape-${VERSION}.zip" > "codescape-${VERSION}.zip.sha256"
