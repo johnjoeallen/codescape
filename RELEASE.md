@@ -42,10 +42,10 @@ persistent availability issue that made release builds unreliable; see
 `jlink` builds a runtime for whatever platform it runs on — it can't
 cross-compile a JVM for a different OS/arch — so each zip is built on a
 matching GitHub-hosted runner and bundles a runtime native to it. Pick the
-zip matching your machine; running the wrong one's bundled `runtime/` will
-fail (the launcher scripts fall back to a system `java` on `PATH` if the
-bundled one won't run, which only helps if that system Java happens to be
-25+).
+zip matching your machine; the launcher scripts prefer a system Java 25+
+when one's on `PATH` (see [Bundled runtime](#bundled-runtime)) and only
+fall back to the bundled `runtime/`, so a mismatched platform zip mostly
+matters if you don't have a system Java 25+ install to fall back to.
 
 Aside from the platform-specific `runtime/`, every zip has the same
 layout:
@@ -83,11 +83,17 @@ runtime small (tens of MB, not a full JDK) while making the zip fully
 self-contained.
 
 Launcher scripts (`bin/codescape-service`, `bin/codescape-mcp`, and their
-`.bat` equivalents) prefer `runtime/bin/java` (`runtime\bin\java.exe` on
-Windows) relative to the script's own location, when present, and fall
-back to `java` on `PATH` otherwise. This keeps the same scripts working
-for local development straight out of `dist/`, where no `runtime/`
-directory exists.
+`.bat` equivalents) prefer a system Java 25+ on `PATH` over the bundled
+`runtime/`, falling back to the bundled runtime — with a warning printed
+to stderr — only when no suitable system Java is found. This is the
+opposite of what you might expect (why ship a runtime and *not* prefer
+it?), but some corporate endpoint security software (e.g. Carbon Black)
+blocks execution of unsigned/bundled binaries, so the bundled JVM may
+simply not be runnable in a locked-down environment even though it's
+present and otherwise correct — a compliant system install doesn't have
+that problem. This also keeps the same scripts working unmodified for
+local development straight out of `dist/`, where no `runtime/` directory
+exists at all.
 
 Native installers (`.deb`, `.rpm`, `.msi`, etc.) via `jpackage` are a
 possible later addition but out of scope for the initial release line —

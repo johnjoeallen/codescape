@@ -5,7 +5,10 @@ runnable components: `codescape-service` (the repository-management
 Spring Boot app) and `codescape-mcp` (the MCP adapter). Every zip bundles
 its own minimal JVM (built with `jlink`, native to that platform) under
 `runtime/`, so no external database, search server, or Java install is
-required — the launcher scripts use the bundled runtime automatically.
+strictly required. The launcher scripts prefer a system Java 25+ on
+`PATH` when one's available, falling back to the bundled runtime
+otherwise — see [Prerequisites](#prerequisites) for why that's the
+preferred order, not the other way around.
 
 ## Prerequisites
 
@@ -21,10 +24,14 @@ publish platform-specific zips — pick the one for your OS/arch:
 No Intel Mac build currently — see
 [RELEASE.md](RELEASE.md#release-archive-layout) for why.
 
-The bundled `runtime/` only runs on the platform it was built for — using
-the wrong zip's runtime will fail to launch. If you'd rather use a system
-JVM (Java 25+) instead of the bundled one, remove or rename the `runtime/`
-directory and the launcher scripts fall back to `java` on `PATH`.
+If a Java 25+ install is on `PATH`, the launcher scripts use it and the
+bundled `runtime/` is never touched. Only when no suitable system Java is
+found do they fall back to `runtime/` — printing a warning first — which
+only runs on the platform it was built for (the wrong platform's zip will
+fail to launch in that fallback case). This order is deliberate: some
+corporate endpoint security software (e.g. Carbon Black) blocks execution
+of unsigned/bundled binaries, so on a locked-down machine a compliant
+system Java install may be the only thing that actually runs.
 
 ## Install
 

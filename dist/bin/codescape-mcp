@@ -6,18 +6,39 @@ set -euo pipefail
 DIST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 JAR="$(ls "$DIST_DIR"/lib/codescape-mcp-*.jar | head -n1)"
 
-JAVA_BIN="java"
-if [ -x "$DIST_DIR/runtime/bin/java" ]; then
-  JAVA_BIN="$DIST_DIR/runtime/bin/java"
-elif [ -f "$DIST_DIR/runtime/bin/java.exe" ]; then
-  # Windows build's jlink runtime — reached when this script runs under
-  # Git Bash/MSYS/WSL rather than the .bat launcher. Existence check
-  # (-f), not -x: the archive's zip entries don't carry a Unix exec bit
-  # for this file (built with `jar cf`, since windows-latest's Git Bash
-  # has no `zip` — see release.yml), so MSYS's permission emulation sees
-  # it as non-executable after extraction even though Windows itself
-  # doesn't care and will happily run any .exe regardless of that bit.
-  JAVA_BIN="$DIST_DIR/runtime/bin/java.exe"
+# Prefer a system Java 25+ over the bundled runtime: some corporate
+# endpoint security tools (e.g. Carbon Black) block execution of
+# unsigned/bundled binaries, so the runtime/ JVM we ship may simply not
+# be runnable in a locked-down environment even though it's present and
+# otherwise correct. A compliant system install doesn't have that
+# problem. Only fall back to the bundled runtime — with a warning —
+# when no suitable system Java is found.
+JAVA_BIN=""
+if command -v java >/dev/null 2>&1; then
+  SYSTEM_JAVA_MAJOR="$(java -version 2>&1 | head -n1 | grep -oE '"[0-9]+' | tr -d '"')"
+  if [ -n "$SYSTEM_JAVA_MAJOR" ] && [ "$SYSTEM_JAVA_MAJOR" -ge 25 ] 2>/dev/null; then
+    JAVA_BIN="java"
+  fi
+fi
+
+if [ -z "$JAVA_BIN" ]; then
+  if [ -x "$DIST_DIR/runtime/bin/java" ]; then
+    JAVA_BIN="$DIST_DIR/runtime/bin/java"
+  elif [ -f "$DIST_DIR/runtime/bin/java.exe" ]; then
+    # Existence check (-f), not -x: the archive's zip entries don't carry
+    # a Unix exec bit for this file (built with `jar cf`, since
+    # windows-latest's Git Bash has no `zip` — see release.yml), so
+    # MSYS's permission emulation sees it as non-executable after
+    # extraction even though Windows itself doesn't care and will
+    # happily run any .exe regardless of that bit.
+    JAVA_BIN="$DIST_DIR/runtime/bin/java.exe"
+  fi
+
+  if [ -n "$JAVA_BIN" ]; then
+    echo "codescape: no system Java 25+ found on PATH; falling back to the bundled runtime under runtime/. If your environment blocks running bundled/unsigned executables (e.g. Carbon Black or similar endpoint security software), install Java 25+ and make sure 'java' resolves to it on PATH instead." >&2
+  else
+    JAVA_BIN="java"
+  fi
 fi
 
 exec "$JAVA_BIN" -jar "$JAR" "$@"
