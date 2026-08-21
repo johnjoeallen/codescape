@@ -3,6 +3,8 @@ package dev.codescape.service.source;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,14 +16,15 @@ class SourceRegistrationServiceTest {
     private SourceRegistrationService registrationService;
 
     @Test
-    void registeringADirectorySourceDoesNotTouchTheFilesystem() {
+    void registeringADirectorySourceCreatesTheManagedDirectory() {
         SourceCollection source = registrationService.register(
                 "example-dir", SourceType.DIRECTORY, "/opt/vendor/example");
 
         assertThat(source.getId()).isNotBlank();
         assertThat(source.getSourcePath()).isEqualTo("/opt/vendor/example");
-        assertThat(source.getManagedPath()).endsWith("sources/example-dir/base");
+        assertThat(source.getManagedPath()).endsWith("content/example-dir/base");
         assertThat(source.getCapabilities()).containsExactly(Capability.FILESYSTEM);
+        assertThat(Files.isDirectory(Path.of(source.getManagedPath()))).isTrue();
     }
 
     @Test

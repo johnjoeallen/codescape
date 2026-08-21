@@ -5,7 +5,7 @@ server:
   port: 8085
 
 codescape:
-  # Root of CodeScape's managed-data area (db, index, sources, workspaces).
+  # Root of CodeScape's managed-data area (db, index, content, workspaces).
   home: ${CODESCAPE_HOME:${user.home}/.codescape}
 
 logging:

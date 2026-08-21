@@ -109,10 +109,15 @@ A developer may register:
 CodeScape creates:
 
 ```
-~/.codescape/sources/orders-api/
+~/.codescape/content/orders-api/
     base/
     branches/
 ```
+
+`~/.codescape/content/` is the default area for all managed copies —
+whether cloned/copied from a local developer-owned path or fetched as
+web-downloaded content (e.g. a source archive pulled from a URL). Each
+registered source gets its own subdirectory here, named after the source.
 
 The developer-owned repository remains untouched. CodeScape can freely
 perform operations such as `git fetch`, `git checkout`, `git switch`,
@@ -133,7 +138,7 @@ credentials.
 
 A plain source folder does not require Git, e.g.
 `/opt/vendor/source-drop-2025/` may be registered as `type = DIRECTORY`.
-CodeScape creates `~/.codescape/sources/vendor-source-drop/base/` using a
+CodeScape creates `~/.codescape/content/vendor-source-drop/base/` using a
 controlled filesystem snapshot/copy. CodeScape can then browse, index
 (Lucene), search, snapshot, create disposable workspaces, build if
 configured, and allow agent experimentation against a workspace.
@@ -225,7 +230,7 @@ within its own controlled area, never against developer-owned source.
 For Git sources, keep the managed base repository on the default branch:
 
 ```
-~/.codescape/sources/orders-api/
+~/.codescape/content/orders-api/
     base/
         # main/master/default branch
 

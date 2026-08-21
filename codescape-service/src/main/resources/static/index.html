@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CodeScape</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+    h1 { font-size: 1.4rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #ddd; font-size: 0.9rem; }
+    th { color: #555; font-weight: 600; }
+    form { margin-top: 2rem; display: grid; gap: 0.6rem; max-width: 420px; }
+    label { font-size: 0.85rem; color: #333; }
+    input, select { padding: 0.4rem; font-size: 0.9rem; }
+    button { padding: 0.5rem; font-size: 0.9rem; cursor: pointer; }
+    #error { color: #b00020; font-size: 0.85rem; margin-top: 0.5rem; }
+    #empty { color: #777; font-size: 0.9rem; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>CodeScape sources</h1>
+
+  <table id="sources-table">
+    <thead>
+      <tr><th>Name</th><th>Type</th><th>Source path</th><th>Managed path</th></tr>
+    </thead>
+    <tbody id="sources-body"></tbody>
+  </table>
+  <p id="empty" hidden>No sources registered yet.</p>
+
+  <h2>Add a source</h2>
+  <form id="add-form">
+    <div>
+      <label for="name">Name</label><br>
+      <input id="name" name="name" required>
+    </div>
+    <div>
+      <label for="sourcePath">Source path</label><br>
+      <input id="sourcePath" name="sourcePath" required placeholder="/home/user/git/orders-api">
+    </div>
+    <div>
+      <label for="type">Type</label><br>
+      <select id="type" name="type">
+        <option value="GIT">Git</option>
+        <option value="DIRECTORY">Directory</option>
+      </select>
+    </div>
+    <button type="submit">Add source</button>
+    <p id="error" hidden></p>
+  </form>
+
+  <script>
+    const body = document.getElementById('sources-body');
+    const empty = document.getElementById('empty');
+    const error = document.getElementById('error');
+    const form = document.getElementById('add-form');
+
+    async function loadSources() {
+      const response = await fetch('/api/sources');
+      const sources = await response.json();
+      body.innerHTML = '';
+      empty.hidden = sources.length > 0;
+      for (const source of sources) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${escapeHtml(source.name)}</td>
+          <td>${escapeHtml(source.type)}</td>
+          <td>${escapeHtml(source.sourcePath)}</td>
+          <td>${escapeHtml(source.managedPath)}</td>`;
+        body.appendChild(row);
+      }
+    }
+
+    function escapeHtml(value) {
+      const div = document.createElement('div');
+      div.textContent = value ?? '';
+      return div.innerHTML;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      error.hidden = true;
+      const payload = {
+        name: form.name.value,
+        sourcePath: form.sourcePath.value,
+        type: form.type.value,
+      };
+      const response = await fetch('/api/sources', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        error.textContent = body.message || `Could not add source (HTTP ${response.status})`;
+        error.hidden = false;
+        return;
+      }
+      form.reset();
+      await loadSources();
+    });
+
+    loadSources();
+  </script>
+</body>
+</html>

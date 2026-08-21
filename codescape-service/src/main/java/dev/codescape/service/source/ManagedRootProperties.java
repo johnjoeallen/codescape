@@ -16,8 +16,8 @@ public record ManagedRootProperties(String home) {
         return Path.of(home);
     }
 
-    public Path sourcesRoot() {
-        return root().resolve("sources");
+    public Path contentRoot() {
+        return root().resolve("content");
     }
 
     public Path indexRoot() {

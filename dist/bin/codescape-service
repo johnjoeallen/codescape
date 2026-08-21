@@ -5,6 +5,11 @@ set -euo pipefail
 DIST_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 JAR="$(ls "$DIST_DIR"/lib/codescape-service-*.jar | head -n1)"
 
-exec java -jar "$JAR" \
+JAVA_BIN="java"
+if [ -x "$DIST_DIR/runtime/bin/java" ]; then
+  JAVA_BIN="$DIST_DIR/runtime/bin/java"
+fi
+
+exec "$JAVA_BIN" -jar "$JAR" \
   --spring.config.additional-location="file:$DIST_DIR/config/" \
   "$@"

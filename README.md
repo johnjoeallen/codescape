@@ -23,7 +23,8 @@ build capability without ever touching the developer-owned original.
   extracted archive, a vendor source drop, or any other filesystem-based
   source tree.
 - **Managed copies**: CodeScape creates and owns a copy of each registered
-  source under `~/.codescape/sources/<name>/`. All mutation happens here.
+  source — local or web-downloaded — under `~/.codescape/content/<name>/`.
+  All mutation happens here.
 - **Capabilities**: instead of branching on source type, behavior is driven
   by capability flags (`FILESYSTEM`, `SEARCH`, `GIT`, `GITHUB`, `BRANCHES`,
   `HISTORY`, `BUILD`, `WORKSPACE`), so plain folders and full Git/GitHub
