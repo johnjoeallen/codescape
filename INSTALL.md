@@ -10,14 +10,16 @@ required — the launcher scripts use the bundled runtime automatically.
 ## Prerequisites
 
 None, as long as you download the zip matching your machine. Releases
-publish four platform-specific zips — pick the one for your OS/arch:
+publish platform-specific zips — pick the one for your OS/arch:
 
 | Your machine            | Download                              |
 |--------------------------|----------------------------------------|
 | Linux, x86_64            | `codescape-<version>-linux-x64.zip`    |
 | Windows, x86_64          | `codescape-<version>-windows-x64.zip`  |
-| macOS, Intel             | `codescape-<version>-macos-x64.zip`    |
 | macOS, Apple Silicon     | `codescape-<version>-macos-arm64.zip`  |
+
+No Intel Mac build currently — see
+[RELEASE.md](RELEASE.md#release-archive-layout) for why.
 
 The bundled `runtime/` only runs on the platform it was built for — using
 the wrong zip's runtime will fail to launch. If you'd rather use a system

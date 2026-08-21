@@ -33,8 +33,11 @@ Each platform's zip is named `codescape-<version>-<platform>.zip`, where
 |----------------|-------------------|--------------------------------|
 | `linux-x64`    | `ubuntu-latest`   | Linux, x86_64                  |
 | `windows-x64`  | `windows-latest`  | Windows, x86_64                |
-| `macos-x64`    | `macos-13`        | macOS, Intel                   |
 | `macos-arm64`  | `macos-14`        | macOS, Apple Silicon (M-series)|
+
+No Intel Mac (`macos-x64`) build currently — the `macos-13` runner had a
+persistent availability issue that made release builds unreliable; see
+[issue #26](https://github.com/johnjoeallen/codescape/issues/26).
 
 `jlink` builds a runtime for whatever platform it runs on — it can't
 cross-compile a JVM for a different OS/arch — so each zip is built on a
