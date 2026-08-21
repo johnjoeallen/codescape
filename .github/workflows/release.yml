@@ -102,7 +102,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          STAGE="$(pwd)/staging/codescape-${VERSION}"
+          # The zip filename carries the version; the folder inside it
+          # deliberately doesn't, so unzipping a new release over an old
+          # one lands at the same path (codescape/) instead of piling up
+          # codescape-0.0.7/, codescape-0.0.8/, ... — useful for anything
+          # (an IDE's MCP config, a shell alias) pointing at a fixed path.
+          STAGE="$(pwd)/staging/codescape"
           mkdir -p "$STAGE/bin" "$STAGE/lib" "$STAGE/config"
 
           cp dist/bin/* "$STAGE/bin/"
@@ -136,7 +141,7 @@ jobs:
 
           ARCHIVE="codescape-${VERSION}-${PLATFORM}.zip"
           if command -v zip >/dev/null 2>&1; then
-            (cd staging && zip -r "../${ARCHIVE}" "codescape-${VERSION}")
+            (cd staging && zip -r "../${ARCHIVE}" "codescape")
           else
             # windows-latest's Git Bash has no zip binary. Fall back to the
             # JDK's own `jar` (always present here via actions/setup-java).
@@ -144,7 +149,7 @@ jobs:
             # only matters for bin/codescape-service and bin/codescape-mcp
             # (the bash launchers) — irrelevant on Windows, which has no
             # such bits and uses the .bat launchers instead.
-            (cd staging && jar cf "../${ARCHIVE}" "codescape-${VERSION}")
+            (cd staging && jar cf "../${ARCHIVE}" "codescape")
           fi
 
           if command -v sha256sum >/dev/null 2>&1; then

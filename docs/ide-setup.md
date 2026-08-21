@@ -59,7 +59,7 @@ your user profile (available to every workspace). The top-level key is
 {
   "servers": {
     "codescape": {
-      "command": "/absolute/path/to/codescape-0.0.5/bin/codescape-mcp",
+      "command": "/absolute/path/to/codescape/bin/codescape-mcp",
       "args": []
     }
   }
@@ -72,7 +72,7 @@ On Windows, point `command` at the `.bat` launcher instead:
 {
   "servers": {
     "codescape": {
-      "command": "C:\\Users\\you\\tools\\codescape-0.0.5\\bin\\codescape-mcp.bat",
+      "command": "C:\\Users\\you\\tools\\codescape\\bin\\codescape-mcp.bat",
       "args": []
     }
   }
@@ -91,7 +91,7 @@ If `codescape-service` isn't on the default port, set
 {
   "servers": {
     "codescape": {
-      "command": "/absolute/path/to/codescape-0.0.5/bin/codescape-mcp",
+      "command": "/absolute/path/to/codescape/bin/codescape-mcp",
       "args": [],
       "env": { "CODESCAPE_SERVICE_URL": "http://localhost:9090" }
     }
@@ -113,7 +113,7 @@ direction and unrelated to this setup.
    {
      "mcpServers": {
        "codescape": {
-         "command": "/absolute/path/to/codescape-0.0.5/bin/codescape-mcp",
+         "command": "/absolute/path/to/codescape/bin/codescape-mcp",
          "args": []
        }
      }

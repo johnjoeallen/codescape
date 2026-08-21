@@ -52,23 +52,29 @@ layout:
 
 ```
 codescape-<version>-<platform>.zip
-├── bin/
-│   ├── codescape-service        # launcher script (Linux/macOS)
-│   ├── codescape-service.bat    # launcher script (Windows)
-│   ├── codescape-mcp
-│   └── codescape-mcp.bat
-├── lib/
-│   ├── codescape-service-<version>.jar
-│   └── codescape-mcp-<version>.jar
-├── runtime/
-│   └── ...                      # jlink custom JRE (bin/java, etc.)
-├── config/
-│   └── application.yml          # default config (ports, ~/.codescape path, etc.)
-├── LICENSE
-├── README.md
-├── AGENTS.md
-└── INSTALL.md
+└── codescape/                   # not codescape-<version>/ — see below
+    ├── bin/
+    │   ├── codescape-service        # launcher script (Linux/macOS)
+    │   ├── codescape-service.bat    # launcher script (Windows)
+    │   ├── codescape-mcp
+    │   └── codescape-mcp.bat
+    ├── lib/
+    │   ├── codescape-service-<version>.jar
+    │   └── codescape-mcp-<version>.jar
+    ├── runtime/
+    │   └── ...                      # jlink custom JRE (bin/java, etc.)
+    ├── config/
+    │   └── application.yml          # default config (ports, ~/.codescape path, etc.)
+    ├── LICENSE
+    ├── README.md
+    ├── AGENTS.md
+    └── INSTALL.md
 ```
+
+The version lives in the zip's filename only — the folder inside is always
+just `codescape/`, not `codescape-<version>/`, so unzipping a new release
+over an old one lands at the same path instead of piling up a
+differently-named folder per version.
 
 ## Bundled runtime
 
@@ -161,7 +167,9 @@ consistent with CodeScape's local-first, developer-machine-scoped design
 ```
 # 1. Download the zip matching your OS/arch (see the platform table
 #    above) and unzip it. No Java install required — a JVM ships inside.
-unzip codescape-<version>-<platform>.zip -d codescape
+#    The zip's contents are already under codescape/ (not
+#    codescape-<version>/), so this lands at the same path every release.
+unzip codescape-<version>-<platform>.zip
 cd codescape
 
 # 2. Start the repository-management service (background/managed process
