@@ -9,6 +9,12 @@ JAR="$(ls "$DIST_DIR"/lib/codescape-mcp-*.jar | head -n1)"
 JAVA_BIN="java"
 if [ -x "$DIST_DIR/runtime/bin/java" ]; then
   JAVA_BIN="$DIST_DIR/runtime/bin/java"
+elif [ -x "$DIST_DIR/runtime/bin/java.exe" ]; then
+  # Windows build's jlink runtime — reached when this script runs under
+  # Git Bash/MSYS/WSL rather than the .bat launcher. Named explicitly
+  # rather than relying on MSYS's implicit .exe resolution for the
+  # extensionless name, which isn't consistent enough to depend on.
+  JAVA_BIN="$DIST_DIR/runtime/bin/java.exe"
 fi
 
 exec "$JAVA_BIN" -jar "$JAR" "$@"
