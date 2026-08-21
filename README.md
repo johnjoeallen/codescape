@@ -8,7 +8,8 @@ coding agents — the code you're working on, related repos, internal docs
 and wikis, indexed websites, and more, all searchable from one place. Git
 repos are a special case, not a different kind of thing: instead of one
 snapshot, a git source can have multiple indexed revisions (branches,
-worktrees), each searchable independently.
+worktrees), each searchable on its own or, by default, together across
+every currently-indexed branch.
 
 Docs: **[johnjoeallen.github.io/codescape](https://johnjoeallen.github.io/codescape/)**
 
@@ -40,11 +41,12 @@ build capability without ever touching the developer-owned original.
 - **Source collections**: anything indexable — a git repository, a plain
   source directory, an extracted archive, a vendor source drop, or
   (planned) a crawled website or Confluence space.
-- **Revisions**: the actual unit of search. Most sources have one revision
-  at a time (a snapshot); git sources can have many — one per branch or
-  worktree — each indexed and searchable independently. That's the one
-  structural difference between a git source and everything else: more
-  revisions, not a different kind of source.
+- **Revisions**: the actual unit of indexing. Most sources have one
+  revision at a time (a snapshot); git sources can have many — one per
+  branch or worktree — each indexed separately. Search can be scoped to
+  one revision or, by default, run across every currently-indexed branch
+  together. That's the one structural difference between a git source and
+  everything else: more revisions, not a different kind of source.
 - **Managed copies**: for sources CodeScape can mutate, it creates and
   owns a copy — local or web-downloaded — under
   `~/.codescape/content/<name>/`. All mutation happens here; the original
