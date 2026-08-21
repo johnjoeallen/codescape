@@ -10,11 +10,22 @@ not apply to other agents. `CLAUDE.md` should otherwise just point back here.
 
 ## Project overview
 
-CodeScape is a managed local source estate. It does not operate directly on
-developer-owned repositories or folders. Instead, when a source is
-registered, CodeScape creates and owns a distinct **managed copy**, and all
-analysis, indexing, Git/GitHub operations, builds, tests, and agent
-experimentation happen against that managed copy.
+CodeScape is a search engine over a curated, multi-source dataset for AI
+coding agents — code, plain folders, and eventually indexed websites/wikis,
+all searchable from one place. Git repos are not a different kind of
+source; they're the case where a source can have multiple indexed
+*revisions* (branches, worktrees) instead of just one. `SEARCH` is the
+universal capability every source gets; `GIT`/`BRANCHES` are what let a
+source produce more than one revision to index.
+
+For sources CodeScape can mutate (git repos, other filesystem sources), it
+does not operate directly on developer-owned repositories or folders.
+Instead, when such a source is registered, CodeScape creates and owns a
+distinct **managed copy**, and all analysis, indexing, Git/GitHub
+operations, builds, tests, and agent experimentation happen against that
+managed copy. This is the safety mechanism, not the mission — see
+[Index model](#index-model) for how it connects to the search-first
+framing above.
 
 ## Core architecture
 
@@ -259,6 +270,15 @@ and associated index state. It never deletes or modifies a developer
 branch.
 
 ### Index model
+
+This is where the search-first framing from
+[Project overview](#project-overview) becomes concrete: the unit that gets
+indexed and searched is *(source, revision)*, not just *source*. A plain
+folder or archive normally has one revision (a snapshot); a git source can
+have many, one per branch/worktree from the [branch model](#git-branch-model)
+above — each is indexed and searchable independently, distinguished by
+`ref`/`commitSha` below. Git isn't a structurally different kind of
+document in the index, just a source with more revisions than usual.
 
 Lucene documents should be source and revision aware. Common fields:
 
