@@ -11,6 +11,7 @@ nav:
   - Home: index.md
   - Architecture: AGENTS.md
   - Install: INSTALL.md
+  - IDE Setup: ide-setup.md
   - Release & Packaging: RELEASE.md
   - Roadmap: ROADMAP.md
 

@@ -75,6 +75,9 @@ result and exit immediately:
 ./bin/codescape-mcp list
 ```
 
+For VS Code and IntelliJ IDEA specifically, see [IDE Setup](ide-setup.md)
+for the exact config entry each expects.
+
 On Windows, use `bin\codescape-service.bat` and `bin\codescape-mcp.bat`.
 
 ## Configuration
