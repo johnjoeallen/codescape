@@ -135,18 +135,23 @@ mutating operation is attributable and confined to managed storage.
 
 - Package `codescape-service` (Spring Boot, H2 + Lucene embedded) and
   `codescape-mcp` as separate executable jars from a shared build.
-- Build a custom `jlink` runtime (module list derived from the jars via
-  `jdeps`) and bundle it into the release zip so no system JVM is
-  required.
-- Assemble the release zip (jars, bundled runtime, launcher scripts,
-  default config, docs) per [RELEASE.md](./RELEASE.md).
-- Wire up CI to build, tag, and publish the zip as a GitHub Release asset
-  on `vX.Y.Z` tags.
-- Write `INSTALL.md` (unzip + run, no prerequisites).
+- Build a custom `jlink` runtime per platform (module list derived from
+  the jars via `jdeps`) and bundle it into that platform's release zip
+  so no system JVM is required — `jlink` can't cross-compile a runtime
+  for a different OS/arch, so this means one zip per platform
+  (linux-x64, windows-x64, macos-x64, macos-arm64), not a single
+  universal zip.
+- Assemble each platform's release zip (jars, bundled runtime, launcher
+  scripts, default config, docs) per [RELEASE.md](./RELEASE.md).
+- Wire up CI to build once, package per platform in a matrix, and
+  publish all four zips as GitHub Release assets on `vX.Y.Z` tags.
+- Write `INSTALL.md` (pick your platform's zip, unzip + run, no
+  prerequisites).
 
-**Exit criteria:** a clean machine with nothing preinstalled can unzip a
-tagged release, start both processes, and connect an MCP client — no
-JVM, external database, or search server setup required.
+**Exit criteria:** a clean machine with nothing preinstalled can unzip
+the release zip matching its OS/arch, start both processes, and connect
+an MCP client — no JVM, external database, or search server setup
+required.
 
 ## Stage 11 — Multi-source & scale
 

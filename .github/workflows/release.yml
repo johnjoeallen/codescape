@@ -9,8 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -31,9 +33,67 @@ jobs:
       - name: Package
         run: mvn -B package -DskipTests
 
-      - name: Assemble release archive
+      - name: Upload jars
+        uses: actions/upload-artifact@v4
+        with:
+          name: jars
+          path: |
+            codescape-service/target/codescape-service-*.jar
+            codescape-mcp/target/codescape-mcp-*.jar
+
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create draft release
         env:
-          VERSION: ${{ steps.version.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --title "${{ github.ref_name }}" \
+            --generate-notes \
+            --draft
+
+  # Each platform gets its own zip with a jlink runtime built for that
+  # platform — jlink can't cross-compile a runtime for a different OS/arch
+  # from the JDK modules it's running on, so "one zip for everyone" (the
+  # previous single ubuntu-latest job) only ever worked on Linux x64.
+  package:
+    needs: [build, create-release]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux-x64
+          - os: windows-latest
+            platform: windows-x64
+          - os: macos-13
+            platform: macos-x64
+          - os: macos-14
+            platform: macos-arm64
+    runs-on: ${{ matrix.os }}
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      PLATFORM: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Download jars
+        uses: actions/download-artifact@v4
+        with:
+          name: jars
+          path: jars
+
+      - name: Assemble release archive
+        shell: bash
         run: |
           set -euo pipefail
           STAGE="$(pwd)/staging/codescape-${VERSION}"
@@ -43,8 +103,8 @@ jobs:
           chmod +x "$STAGE/bin/codescape-service" "$STAGE/bin/codescape-mcp"
           cp dist/config/application.yml "$STAGE/config/"
 
-          cp codescape-service/target/codescape-service-*.jar "$STAGE/lib/"
-          cp codescape-mcp/target/codescape-mcp-*.jar "$STAGE/lib/"
+          cp jars/codescape-service-*.jar "$STAGE/lib/"
+          cp jars/codescape-mcp-*.jar "$STAGE/lib/"
 
           cp LICENSE README.md AGENTS.md INSTALL.md "$STAGE/"
 
@@ -63,13 +123,26 @@ jobs:
             --output "$STAGE/runtime" \
             --strip-debug --no-header-files --no-man-pages --compress=2
 
-          (cd staging && zip -r "../codescape-${VERSION}.zip" "codescape-${VERSION}")
-          sha256sum "codescape-${VERSION}.zip" > "codescape-${VERSION}.zip.sha256"
+          ARCHIVE="codescape-${VERSION}-${PLATFORM}.zip"
+          (cd staging && zip -r "../${ARCHIVE}" "codescape-${VERSION}")
+          sha256sum "${ARCHIVE}" > "${ARCHIVE}.sha256"
 
-      - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            codescape-${{ steps.version.outputs.version }}.zip
-            codescape-${{ steps.version.outputs.version }}.zip.sha256
-          generate_release_notes: true
+      - name: Upload release assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ github.ref_name }}" \
+            "codescape-${VERSION}-${PLATFORM}.zip" \
+            "codescape-${VERSION}-${PLATFORM}.zip.sha256" \
+            --clobber
+
+  publish-release:
+    needs: [create-release, package]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Undraft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "${{ github.ref_name }}" --draft=false

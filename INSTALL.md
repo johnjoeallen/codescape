@@ -1,22 +1,33 @@
 # Installing CodeScape
 
-CodeScape ships as a zip containing two independently runnable components:
-`codescape-service` (the repository-management Spring Boot app) and
-`codescape-mcp` (the MCP adapter). The zip bundles its own minimal JVM
-(built with `jlink`) under `runtime/`, so no external database, search
-server, or Java install is required — the launcher scripts use the
-bundled runtime automatically.
+CodeScape ships as one zip per platform, each containing two independently
+runnable components: `codescape-service` (the repository-management
+Spring Boot app) and `codescape-mcp` (the MCP adapter). Every zip bundles
+its own minimal JVM (built with `jlink`, native to that platform) under
+`runtime/`, so no external database, search server, or Java install is
+required — the launcher scripts use the bundled runtime automatically.
 
 ## Prerequisites
 
-None. If you'd rather use a system JVM (Java 25+), remove or rename the
-`runtime/` directory and the launcher scripts fall back to `java` on
-`PATH`.
+None, as long as you download the zip matching your machine. Releases
+publish four platform-specific zips — pick the one for your OS/arch:
+
+| Your machine            | Download                              |
+|--------------------------|----------------------------------------|
+| Linux, x86_64            | `codescape-<version>-linux-x64.zip`    |
+| Windows, x86_64          | `codescape-<version>-windows-x64.zip`  |
+| macOS, Intel             | `codescape-<version>-macos-x64.zip`    |
+| macOS, Apple Silicon     | `codescape-<version>-macos-arm64.zip`  |
+
+The bundled `runtime/` only runs on the platform it was built for — using
+the wrong zip's runtime will fail to launch. If you'd rather use a system
+JVM (Java 25+) instead of the bundled one, remove or rename the `runtime/`
+directory and the launcher scripts fall back to `java` on `PATH`.
 
 ## Install
 
 ```
-unzip codescape-<version>.zip -d codescape
+unzip codescape-<version>-<platform>.zip -d codescape
 cd codescape
 ```
 
