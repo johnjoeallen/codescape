@@ -46,8 +46,13 @@ tools may depend on.
 
 ## Install
 
+The zip's contents are already under a `codescape/` folder (not
+`codescape-<version>/`) — unzipping a new version over an old one lands
+at the same path, rather than piling up a differently-named folder per
+release.
+
 ```
-unzip codescape-<version>-<platform>.zip -d codescape
+unzip codescape-<version>-<platform>.zip
 cd codescape
 ```
 
