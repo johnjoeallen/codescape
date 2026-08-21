@@ -1,14 +1,14 @@
 # Release & Packaging
 
 This document describes CodeScape's release workflow and the shape of a
-distributed release. It is speculative/forward-looking until Stage 8+ of
-the [ROADMAP](./ROADMAP.md) lands — treat it as the target to build
-towards, not a description of an existing pipeline.
+distributed release, as built by [`release.yml`](.github/workflows/release.yml)
+on a `vX.Y.Z` tag push.
 
 ## What gets released
 
-A CodeScape release is a single zip containing two independently runnable
-Java components:
+A CodeScape release is one zip **per platform**, each containing the same
+two independently runnable Java components plus a JVM built for that
+platform:
 
 1. **codescape-service** — the Spring Boot repository-management app
    (source registration, managed copies, Git/GitHub operations, Lucene
@@ -26,8 +26,29 @@ Java preinstalled at all.
 
 ## Release archive layout
 
+Each platform's zip is named `codescape-<version>-<platform>.zip`, where
+`<platform>` is one of:
+
+| Platform       | Built on          | Covers                        |
+|----------------|-------------------|--------------------------------|
+| `linux-x64`    | `ubuntu-latest`   | Linux, x86_64                  |
+| `windows-x64`  | `windows-latest`  | Windows, x86_64                |
+| `macos-x64`    | `macos-13`        | macOS, Intel                   |
+| `macos-arm64`  | `macos-14`        | macOS, Apple Silicon (M-series)|
+
+`jlink` builds a runtime for whatever platform it runs on — it can't
+cross-compile a JVM for a different OS/arch — so each zip is built on a
+matching GitHub-hosted runner and bundles a runtime native to it. Pick the
+zip matching your machine; running the wrong one's bundled `runtime/` will
+fail (the launcher scripts fall back to a system `java` on `PATH` if the
+bundled one won't run, which only helps if that system Java happens to be
+25+).
+
+Aside from the platform-specific `runtime/`, every zip has the same
+layout:
+
 ```
-codescape-<version>.zip
+codescape-<version>-<platform>.zip
 ├── bin/
 │   ├── codescape-service        # launcher script (Linux/macOS)
 │   ├── codescape-service.bat    # launcher script (Windows)
@@ -87,21 +108,25 @@ Semantic versioning (`MAJOR.MINOR.PATCH`). Until Stage 8 (MCP adapter) is
 complete, releases stay pre-1.0 (`0.MINOR.PATCH`); breaking changes to the
 managed-data layout or API bump `MINOR`.
 
-## Build & release workflow (target)
+## Build & release workflow
 
-1. Tag a release commit on `main` (`vX.Y.Z`).
-2. CI builds both modules (`mvn -pl codescape-service,codescape-mcp
-   package` or Gradle equivalent), producing the two fat jars.
-3. CI derives the module list needed by both jars via `jdeps
-   --print-module-deps`, then builds a custom runtime with `jlink` into
-   `runtime/`.
-4. CI assembles the release zip (jars + launcher scripts + bundled runtime
-   + default config + docs) as described above.
-5. CI publishes the zip as a GitHub Release asset attached to the tag,
-   with release notes generated from merged PRs/commits since the last
-   tag.
-6. (Optional, later) publish checksums (`sha256sum`) alongside the zip for
-   integrity verification.
+1. Tag a release commit on `main` (`vX.Y.Z`) and push the tag.
+2. A `build` job (on `ubuntu-latest`) runs `mvn verify` then `mvn package`
+   once, producing the two platform-independent fat jars, and uploads
+   them as a workflow artifact.
+3. A `create-release` job creates a **draft** GitHub Release for the tag
+   (draft so it isn't visible with partial assets while the matrix below
+   is still running).
+4. A `package` job runs as a **matrix** across the four platforms in
+   [Release archive layout](#release-archive-layout). Each downloads the
+   shared jars, derives its own module list via `jdeps --print-module-deps`
+   (run against the jars *exploded*, not the fat jars directly — see
+   [Bundled runtime](#bundled-runtime)), builds a `jlink` runtime native to
+   that platform, assembles that platform's zip, and uploads the zip plus
+   its `sha256` checksum to the draft release.
+5. Once all four platform jobs succeed, a `publish-release` job un-drafts
+   the release. Release notes are generated from merged PRs/commits since
+   the last tag.
 
 No Docker image is planned for the initial release line — the goal is a
 zero-dependency local install (unzip + run, no Java install required),
@@ -111,8 +136,9 @@ consistent with CodeScape's local-first, developer-machine-scoped design
 ## Installation instructions (target, for `INSTALL.md`)
 
 ```
-# 1. Unzip the release. No Java install required — a JVM ships inside.
-unzip codescape-<version>.zip -d codescape
+# 1. Download the zip matching your OS/arch (see the platform table
+#    above) and unzip it. No Java install required — a JVM ships inside.
+unzip codescape-<version>-<platform>.zip -d codescape
 cd codescape
 
 # 2. Start the repository-management service.
