@@ -1,0 +1,1029 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A managed local source estate for AI coding agents">
+      
+      
+      
+        <link rel="canonical" href="https://johnjoeallen.github.io/codescape/ROADMAP/">
+      
+      
+        <link rel="prev" href="../RELEASE/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/logo/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Roadmap - CodeScape</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#codescape-staged-development-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="CodeScape" class="md-header__button md-logo" aria-label="CodeScape" data-md-component="logo">
+      
+  <img src="../assets/logo/codescape-icon-512.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CodeScape
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Roadmap
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/johnjoeallen/codescape" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    johnjoeallen/codescape
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="CodeScape" class="md-nav__button md-logo" aria-label="CodeScape" data-md-component="logo">
+      
+  <img src="../assets/logo/codescape-icon-512.png" alt="logo">
+
+    </a>
+    CodeScape
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/johnjoeallen/codescape" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    johnjoeallen/codescape
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AGENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../INSTALL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ide-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IDE Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RELEASE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release & Packaging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stage-0-project-scaffolding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 0 — Project scaffolding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-1-filesystem-capability-plain-folder-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1 — Filesystem capability (plain folder sources)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-2-searchindex-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2 — Search/Index capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-snapshot-workspace-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — Snapshot &amp; Workspace capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-4-build-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 4 — Build capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-5-git-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 5 — Git capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-6-git-branch-worktree-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 6 — Git branch worktree model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-7-github-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 7 — GitHub capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-8-mcp-adapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 8 — MCP adapter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-9-hardening-lifecycle-polish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 9 — Hardening &amp; lifecycle polish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-10-release-packaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 10 — Release packaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-11-multi-source-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 11 — Multi-source &amp; scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequencing-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequencing notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#stage-0-project-scaffolding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 0 — Project scaffolding
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-1-filesystem-capability-plain-folder-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 1 — Filesystem capability (plain folder sources)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-2-searchindex-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 2 — Search/Index capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-3-snapshot-workspace-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 3 — Snapshot &amp; Workspace capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-4-build-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 4 — Build capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-5-git-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 5 — Git capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-6-git-branch-worktree-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 6 — Git branch worktree model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-7-github-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 7 — GitHub capability
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-8-mcp-adapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 8 — MCP adapter
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-9-hardening-lifecycle-polish" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 9 — Hardening &amp; lifecycle polish
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-10-release-packaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 10 — Release packaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stage-11-multi-source-scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stage 11 — Multi-source &amp; scale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sequencing-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sequencing notes
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/johnjoeallen/codescape/edit/main/docs/ROADMAP.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="codescape-staged-development-plan">CodeScape Staged Development Plan<a class="headerlink" href="#codescape-staged-development-plan" title="Permanent link">&para;</a></h1>
+<p>This plan sequences CodeScape's build-out so that each stage produces a
+working, testable increment. See <a href="../AGENTS/">AGENTS.md</a> for the
+architecture these stages implement.</p>
+<p>Each stage should end with: a runnable slice, tests for the new
+capability, and no regressions to earlier stages' safety guarantees
+(read-only developer source, all mutation confined to <code>~/.codescape/</code>).</p>
+<hr />
+<h2 id="stage-0-project-scaffolding">Stage 0 — Project scaffolding<a class="headerlink" href="#stage-0-project-scaffolding" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Spring Boot service skeleton (module layout, config, logging).</li>
+<li><code>~/.codescape/</code> root layout: <code>content/</code>, config store.</li>
+<li><code>SourceCollection</code> domain model (id, name, type, sourcePath,
+  managedPath, capabilities) with persistence.</li>
+<li>Basic CLI/REST entrypoint to register and list sources (no operations
+  yet).</li>
+</ul>
+<p><strong>Exit criteria:</strong> can register a source and see it listed; nothing is
+copied or mutated yet.</p>
+<h2 id="stage-1-filesystem-capability-plain-folder-sources">Stage 1 — Filesystem capability (plain folder sources)<a class="headerlink" href="#stage-1-filesystem-capability-plain-folder-sources" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Managed-copy creation: controlled snapshot/copy of a plain directory
+  into <code>~/.codescape/content/&lt;name&gt;/base/</code>.</li>
+<li>Read-only enforcement against the original <code>sourcePath</code>.</li>
+<li>Filesystem browsing API (list/read files) against the managed copy.</li>
+<li>Capability flags: <code>FILESYSTEM</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> register a plain directory (e.g. a vendor source drop),
+browse its managed copy, confirm the original is untouched.</p>
+<h2 id="stage-2-searchindex-capability">Stage 2 — Search/Index capability<a class="headerlink" href="#stage-2-searchindex-capability" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Lucene index integration, schema: <code>sourceId</code>, <code>revisionId</code>, <code>path</code>,
+  <code>filename</code>, <code>extension</code>, <code>language</code>, <code>content</code>.</li>
+<li>Indexing job over a managed copy; snapshot-based <code>revisionId</code> for
+  non-Git sources.</li>
+<li>Search API (by source, by path/content).</li>
+<li>Capability flags: add <code>SEARCH</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> search returns results scoped to a source and
+revision.</p>
+<h2 id="stage-3-snapshot-workspace-capabilities">Stage 3 — Snapshot &amp; Workspace capabilities<a class="headerlink" href="#stage-3-snapshot-workspace-capabilities" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Snapshot model for plain sources (immutable point-in-time copies).</li>
+<li>Disposable workspace creation from a source/snapshot for agent
+  experimentation (write-enabled, isolated from <code>base/</code>).</li>
+<li>Workspace teardown/cleanup lifecycle.</li>
+<li>Capability flags: add <code>SNAPSHOT</code>, <code>WORKSPACE</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> an agent can get a disposable workspace, write to it
+freely, and discard it without affecting <code>base/</code> or the original source.</p>
+<h2 id="stage-4-build-capability">Stage 4 — Build capability<a class="headerlink" href="#stage-4-build-capability" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Pluggable build detection/execution against a workspace (e.g. Maven/
+  Gradle/npm/make, configurable).</li>
+<li>Build output capture and status reporting.</li>
+<li>Capability flags: add <code>BUILD</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> a registered source with build config can be built
+inside a workspace, with results surfaced via the API.</p>
+<h2 id="stage-5-git-capability">Stage 5 — Git capability<a class="headerlink" href="#stage-5-git-capability" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Git-aware source registration: read-only inspection of the original
+  repo (remote URL, default branch, HEAD) during registration.</li>
+<li>Managed clone into <code>~/.codescape/content/&lt;name&gt;/base/</code> (default branch).</li>
+<li>Git operations (<code>fetch</code>, <code>checkout</code>, <code>switch</code>, <code>reset</code>, <code>diff</code>, <code>log</code>,
+  <code>blame</code>, <code>clean</code>) implemented <strong>only</strong> against managed paths.</li>
+<li>Explicit guard layer preventing any state-changing Git call from ever
+  targeting the original <code>sourcePath</code>.</li>
+<li>Capability flags: add <code>GIT</code>, <code>BRANCHES</code>, <code>HISTORY</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> register a Git repo, confirm the managed clone diverges
+freely (branches, resets, etc.) while the original working tree is
+provably unchanged (tested explicitly, e.g. hash/mtime checks).</p>
+<h2 id="stage-6-git-branch-worktree-model">Stage 6 — Git branch worktree model<a class="headerlink" href="#stage-6-git-branch-worktree-model" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>branches/</code> worktree management: create on first access, refresh active
+  branches, expire on inactivity, pin support, cleanup of worktrees for
+  deleted remote branches.</li>
+<li>Branch-aware indexing (<code>ref</code>, <code>commitSha</code> fields added to Lucene docs).</li>
+<li>Capability flags: extend <code>BRANCHES</code> with lifecycle behavior.</li>
+</ul>
+<p><strong>Exit criteria:</strong> switching between branches in the UI/API creates/reuses
+worktrees transparently; deleting a cached branch removes only the
+CodeScape-managed worktree and its index state.</p>
+<h2 id="stage-7-github-capability">Stage 7 — GitHub capability<a class="headerlink" href="#stage-7-github-capability" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Detect GitHub remote on managed Git sources; verify <code>gh</code> availability
+  and delegate to existing developer <code>git</code>/<code>gh</code> auth (no credential
+  storage).</li>
+<li>Wrap <code>gh pr list/view</code>, <code>gh issue list</code>, <code>gh run list</code>, etc.</li>
+<li>Capability flags: add <code>GITHUB</code>.</li>
+</ul>
+<p><strong>Exit criteria:</strong> a GitHub-backed source exposes PR/issue/workflow data
+through the same capability-driven API surface.</p>
+<h2 id="stage-8-mcp-adapter">Stage 8 — MCP adapter<a class="headerlink" href="#stage-8-mcp-adapter" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Thin JSON-RPC 2.0 / MCP transport layer over the Spring Boot service
+  API — no source/Git/index/build logic in the adapter itself.</li>
+<li>Expose capability-driven tool surface to MCP clients (source list,
+  search, browse, git ops, workspace, build, GitHub).</li>
+<li>Capability negotiation: only advertise tools a given source actually
+  supports.</li>
+</ul>
+<p><strong>Progress:</strong> the real stdio transport is in (<code>initialize</code>, <code>tools/list</code>,
+<code>tools/call</code> over newline-delimited JSON-RPC 2.0), with one tool live —
+<code>list_sources</code>. See <a href="https://johnjoeallen.github.io/codescape/ide-setup/">IDE Setup</a>
+to try it. The rest of the tool surface above is still pending, mostly
+blocked on backend capabilities (search indexing in particular) that
+don't exist yet.</p>
+<p><strong>Exit criteria:</strong> an MCP-connected AI agent can register a source,
+search it, branch/build in a workspace, and inspect GitHub PRs entirely
+through MCP tool calls, with zero direct filesystem/Git access to the
+developer's original source.</p>
+<h2 id="stage-9-hardening-lifecycle-polish">Stage 9 — Hardening &amp; lifecycle polish<a class="headerlink" href="#stage-9-hardening-lifecycle-polish" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Automatic expiry/GC of stale branches, workspaces, and snapshots.</li>
+<li>Concurrency/locking around managed-copy mutation (multiple agents/
+  sessions touching the same source).</li>
+<li>Audit logging of all state-changing operations (what, on which managed
+  path, by which agent/session).</li>
+<li>Config surface for retention policies, build tool detection, and index
+  exclusions (<code>.gitignore</code>-aware).</li>
+</ul>
+<p><strong>Exit criteria:</strong> long-running use doesn't leak disk/index state; every
+mutating operation is attributable and confined to managed storage.</p>
+<h2 id="stage-10-release-packaging">Stage 10 — Release packaging<a class="headerlink" href="#stage-10-release-packaging" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Package <code>codescape-service</code> (Spring Boot, H2 + Lucene embedded) and
+  <code>codescape-mcp</code> as separate executable jars from a shared build.</li>
+<li>Build a custom <code>jlink</code> runtime per platform (module list derived from
+  the jars via <code>jdeps</code>) and bundle it into that platform's release zip
+  so no system JVM is required — <code>jlink</code> can't cross-compile a runtime
+  for a different OS/arch, so this means one zip per platform
+  (linux-x64, windows-x64, macos-x64, macos-arm64), not a single
+  universal zip.</li>
+<li>Assemble each platform's release zip (jars, bundled runtime, launcher
+  scripts, default config, docs) per <a href="../RELEASE/">RELEASE.md</a>.</li>
+<li>Wire up CI to build once, package per platform in a matrix, and
+  publish all four zips as GitHub Release assets on <code>vX.Y.Z</code> tags.</li>
+<li>Write <code>INSTALL.md</code> (pick your platform's zip, unzip + run, no
+  prerequisites).</li>
+</ul>
+<p><strong>Exit criteria:</strong> a clean machine with nothing preinstalled can unzip
+the release zip matching its OS/arch, start both processes, and connect
+an MCP client — no JVM, external database, or search server setup
+required.</p>
+<h2 id="stage-11-multi-source-scale">Stage 11 — Multi-source &amp; scale<a class="headerlink" href="#stage-11-multi-source-scale" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Cross-source search and grouping (e.g. related repos/services).</li>
+<li>Performance tuning for large repos (incremental indexing, partial
+  worktree checkouts).</li>
+<li>Optional remote/team-shared managed-source backend (stretch goal, out
+  of scope for local-first v1).</li>
+</ul>
+<hr />
+<h2 id="sequencing-notes">Sequencing notes<a class="headerlink" href="#sequencing-notes" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Stages 1–4 (plain folder path) intentionally come before Stage 5 (Git),
+  so the capability model and safety boundary are proven on the simpler
+  filesystem case first.</li>
+<li>Stage 5's original-source-is-never-mutated guarantee is the highest-risk
+  property in the whole system; it gets its own explicit test suite before
+  any later stage builds on top of it.</li>
+<li>The MCP adapter (Stage 8) is deliberately last among the "core" stages
+  so it has a stable, fully-capable service API to wrap rather than
+  co-evolving with it.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "content.code.copy", "content.action.edit"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,44 @@
+/* Material stamps the resolved data-md-color-scheme on <body> (not <html>)
+   immediately on load, for both the "default" (light) and "slate" (dark)
+   cases — even before any explicit toggle click. Its own light-mode rule
+   is `:root,[data-md-color-scheme="default"]`, so overrides here must
+   match that same selector shape, not just :root, or the body-level
+   override wins at equal specificity (it's later... actually equal
+   source order too — it just plain wins by matching body directly,
+   which :root doesn't). */
+:root,
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #101C33;
+  --md-primary-fg-color--light: #1B2B4D;
+  --md-primary-fg-color--dark: #0A1424;
+  --md-primary-bg-color: #F5F7FA;
+  --md-accent-fg-color: #2DD4BF;
+  --md-accent-fg-color--transparent: #2DD4BF1A;
+  --md-accent-bg-color: #101C33;
+
+  /* Body-text link color: Material defaults this to --md-primary-fg-color,
+     which is a near-black navy — fine as dark-on-white in light mode, but
+     unreadable as dark-navy-on-dark-slate in the slate scheme below, which
+     reuses that same navy for --md-primary-fg-color. Set explicitly per
+     scheme instead of relying on that inheritance. */
+  --md-typeset-a-color: #0F766E;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #101C33;
+  --md-accent-fg-color: #2DD4BF;
+  --md-typeset-a-color: #2DD4BF;
+}
+
+/* The link color passes WCAG contrast against the page background in both
+   schemes, but teal sits close enough to body text's gray/near-black tone
+   (same cool family, similar lightness) that color alone doesn't read as
+   "this is a link" at a glance — exactly the kind of case WCAG 1.4.1 (use
+   of color) calls out. Underline so link identity doesn't depend on hue
+   discrimination. Excludes heading permalink icons (the ¶ that appears on
+   hover), which aren't meant to look like inline text links. */
+.md-typeset a:not(.headerlink) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
