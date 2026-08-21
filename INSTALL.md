@@ -63,8 +63,9 @@ Start the repository-management service first. On first run it creates
 `codescape-mcp` is the MCP adapter, which talks to the service over HTTP.
 You don't normally run it yourself: with no arguments it starts a real
 MCP stdio JSON-RPC server that blocks waiting for input, meant to be
-spawned by an MCP-aware IDE via a config entry rather than run directly
-in a terminal.
+spawned by an MCP-aware IDE via a config entry (using the *full absolute
+path* to `bin/codescape-mcp` — the IDE won't run it with your shell's
+working directory) rather than run directly in a terminal.
 
 To manually confirm `codescape-mcp` can reach the service without
 configuring a whole IDE, use its CLI subcommands instead, which print a

@@ -169,12 +169,14 @@ cd codescape
 #    (db, index, content, workspaces).
 ./bin/codescape-service
 
-# 3. Point your MCP-aware IDE/client at ./bin/codescape-mcp via its own
-#    MCP config (it spawns the process itself over stdio) — see
-#    docs/ide-setup.md. Running codescape-mcp directly in a terminal
-#    with no arguments starts the same stdio server and just blocks
-#    waiting for JSON-RPC input; to manually smoke-test it against the
-#    service instead, use `./bin/codescape-mcp list`.
+# 3. Point your MCP-aware IDE/client at codescape-mcp via its own MCP
+#    config (it spawns the process itself over stdio) — see
+#    docs/ide-setup.md. Use the *full absolute path* to bin/codescape-mcp
+#    in that config, not a relative one — the IDE won't run it with your
+#    shell's working directory. Running codescape-mcp directly in a
+#    terminal with no arguments starts the same stdio server and just
+#    blocks waiting for JSON-RPC input; to manually smoke-test it
+#    against the service instead, use `./bin/codescape-mcp list`.
 ```
 
 Configuration (ports, `~/.codescape` location override, log level) lives
