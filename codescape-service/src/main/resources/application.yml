@@ -22,7 +22,12 @@ spring:
     # misleading — see AGENTS.md.
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      # Schema is owned by Flyway (db/migration/) now, not Hibernate's
+      # auto-DDL — ddl-auto=update wasn't idempotent for constraints
+      # against H2 (re-adding an existing foreign key on every restart
+      # failed with "already exists"). validate just confirms the
+      # entities match what Flyway migrated.
+      ddl-auto: validate
     open-in-view: false
 
 logging:
