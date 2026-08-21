@@ -144,6 +144,21 @@ if [ -z "$JAVA_BIN" ]; then
   fi
 fi
 
+# Git Bash/MSYS auto-translates a *bare* POSIX-style path argument (like
+# $JAR above) to a native Windows path when invoking a non-MSYS program
+# such as java.exe — but not a path embedded inside a larger string like
+# a "file:" URI, which is exactly what this flag is. Without this, Spring
+# Boot on Windows gets handed a literal "file:/c/Users/.../config/" URI,
+# which doesn't resolve to anything on a real Windows filesystem, and
+# fails to start ("Config data location ... does not exist"). cygpath
+# (bundled with Git for Windows) gives the real Windows-style path
+# (C:/Users/... — forward slashes, which both Windows and Spring's file:
+# URI handling accept) to embed instead.
+CONFIG_DIR="$DIST_DIR/config/"
+if command -v cygpath >/dev/null 2>&1; then
+  CONFIG_DIR="$(cygpath -m "$CONFIG_DIR")"
+fi
+
 exec "$JAVA_BIN" -jar "$JAR" \
-  --spring.config.additional-location="file:$DIST_DIR/config/" \
+  --spring.config.additional-location="file:$CONFIG_DIR" \
   "$@"
