@@ -273,12 +273,14 @@ branch.
 
 This is where the search-first framing from
 [Project overview](#project-overview) becomes concrete: the unit that gets
-indexed and searched is *(source, revision)*, not just *source*. A plain
-folder or archive normally has one revision (a snapshot); a git source can
-have many, one per branch/worktree from the [branch model](#git-branch-model)
-above — each is indexed and searchable independently, distinguished by
-`ref`/`commitSha` below. Git isn't a structurally different kind of
-document in the index, just a source with more revisions than usual.
+indexed is *(source, revision)*, not just *source*. A plain folder or
+archive normally has one revision (a snapshot); a git source can have
+many, one per branch/worktree from the [branch model](#git-branch-model)
+above, each indexed separately and distinguished by `ref`/`commitSha`
+below. Search can be scoped to a single revision or, by default, run
+across every currently-indexed revision of a source together — Git isn't
+a structurally different kind of document in the index, just a source
+with more revisions than usual.
 
 Lucene documents should be source and revision aware. Common fields:
 
