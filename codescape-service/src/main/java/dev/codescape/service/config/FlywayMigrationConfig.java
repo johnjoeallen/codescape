@@ -27,6 +27,15 @@ public class FlywayMigrationConfig {
     public Flyway flyway(DataSource dataSource) {
         return Flyway.configure()
                 .dataSource(dataSource)
+                // Databases created before this migration existed (by
+                // Hibernate's old ddl-auto=update) already have the V1
+                // schema, just not Flyway's history table — baseline
+                // marks them as already at V1 instead of failing with
+                // "Found non-empty schema(s) ... but no schema history
+                // table". A genuinely fresh/empty database is unaffected:
+                // baseline only applies when the schema is non-empty.
+                .baselineOnMigrate(true)
+                .baselineVersion("1")
                 .load();
     }
 
