@@ -69,10 +69,16 @@ jobs:
             platform: linux-x64
           - os: windows-latest
             platform: windows-x64
-          - os: macos-13
-            platform: macos-x64
           - os: macos-14
             platform: macos-arm64
+          # macos-13 (Intel) dropped: its runner queue sat unstarted for
+          # 20+ minutes on three consecutive release attempts while every
+          # other platform (including macos-14) started and finished within
+          # a couple of minutes — looks like an availability/concurrency
+          # limit on that specific runner pool for this account, not
+          # something a workflow fix can address. Revisit if it stops being
+          # a persistent bottleneck — see the tracking issue linked from
+          # RELEASE.md.
     runs-on: ${{ matrix.os }}
     env:
       VERSION: ${{ needs.build.outputs.version }}
