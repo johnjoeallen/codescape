@@ -1,11 +1,9 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/logo/codescape-logo-dark.svg">
-  <img alt="CodeScape" src="assets/logo/codescape-logo-light.svg" height="48">
-</picture>
+<p align="center">
+  <img src="assets/logo/codescape-icon-512.png" alt="CodeScape logo" width="96">
+</p>
 
-CodeScape is a managed local source estate for AI coding agents.
-
-Docs: **[johnjoeallen.github.io/codescape](https://johnjoeallen.github.io/codescape/)**
+<h1 align="center">CodeScape</h1>
+<p align="center">A managed local source estate for AI coding agents</p>
 
 Rather than operating directly on your repositories and source folders,
 CodeScape registers each one as a **source collection** and creates a
@@ -40,8 +38,8 @@ build capability without ever touching the developer-owned original.
 - **Lucene indexing**: content is indexed per source and revision (and per
   Git ref/commit, where applicable) to support fast search across sources.
 
-See [AGENTS.md](./AGENTS.md) for the full architecture reference used by
-coding agents working in this repo, and [RELEASE.md](./RELEASE.md) for how
+See [Architecture](AGENTS.md) for the full reference used by coding
+agents working in this repo, and [Release & Packaging](RELEASE.md) for how
 CodeScape is packaged and installed.
 
 ## Data storage
@@ -98,9 +96,5 @@ service, operating exclusively on CodeScape-managed copies.
 ## Status
 
 Early stage — architecture and conventions are being established. See
-[AGENTS.md](./AGENTS.md) for the current design and rules for contributing
-agents.
-
-## License
-
-See [LICENSE](./LICENSE).
+[Roadmap](ROADMAP.md) for the staged build-out plan, and
+[Install](INSTALL.md) to try a release locally.

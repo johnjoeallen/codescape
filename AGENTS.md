@@ -372,7 +372,7 @@ By default, this repository uses a **PR-only** model for `main`:
 - Do not commit or push directly to `main`.
 - Create a feature/topic branch for any change, push it, and open a pull
   request against `main`.
-- `main` is protected: it requires a passing [CI workflow](.github/workflows/ci.yml)
+- `main` is protected: it requires a passing [CI workflow](https://github.com/johnjoeallen/codescape/blob/main/.github/workflows/ci.yml)
   and cannot be pushed to directly (see branch protection settings on the
   GitHub repo).
 - Merge via the PR once checks pass and it's been reviewed/approved.
