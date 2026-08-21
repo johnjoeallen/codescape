@@ -29,3 +29,16 @@
   --md-accent-fg-color: #2DD4BF;
   --md-typeset-a-color: #2DD4BF;
 }
+
+/* The link color passes WCAG contrast against the page background in both
+   schemes, but teal sits close enough to body text's gray/near-black tone
+   (same cool family, similar lightness) that color alone doesn't read as
+   "this is a link" at a glance — exactly the kind of case WCAG 1.4.1 (use
+   of color) calls out. Underline so link identity doesn't depend on hue
+   discrimination. Excludes heading permalink icons (the ¶ that appears on
+   hover), which aren't meant to look like inline text links. */
+.md-typeset a:not(.headerlink) {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
