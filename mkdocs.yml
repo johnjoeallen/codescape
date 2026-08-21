@@ -1,0 +1,57 @@
+site_name: CodeScape
+site_description: A managed local source estate for AI coding agents
+site_url: https://johnjoeallen.github.io/codescape/
+repo_url: https://github.com/johnjoeallen/codescape
+repo_name: johnjoeallen/codescape
+edit_uri: edit/main/docs/
+
+docs_dir: docs
+
+nav:
+  - Home: index.md
+  - Architecture: AGENTS.md
+  - Install: INSTALL.md
+  - Release & Packaging: RELEASE.md
+  - Roadmap: ROADMAP.md
+
+theme:
+  name: material
+  logo: assets/logo/codescape-icon-512.png
+  favicon: assets/logo/favicon.ico
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.top
+    - content.code.copy
+    - content.action.edit
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - tables
+  - toc:
+      permalink: true
+
+# Early-stage, pre-1.0 project: a single-version site published straight
+# from docs/ is enough for now. Revisit with mike (multi-version + a
+# "latest" alias) once there's more than one released version to serve.
