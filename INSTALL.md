@@ -68,7 +68,9 @@ adapter, which talks to the service over HTTP:
 ```
 
 Then point your MCP-compatible AI agent/client at the `codescape-mcp`
-process.
+process — for VS Code and IntelliJ IDEA specifically, most IDEs spawn
+`codescape-mcp` themselves via a config entry rather than you running it
+directly like this; see [IDE Setup](ide-setup.md).
 
 On Windows, use `bin\codescape-service.bat` and `bin\codescape-mcp.bat`.
 
