@@ -129,8 +129,24 @@ jobs:
             --strip-debug --no-header-files --no-man-pages --compress=2
 
           ARCHIVE="codescape-${VERSION}-${PLATFORM}.zip"
-          (cd staging && zip -r "../${ARCHIVE}" "codescape-${VERSION}")
-          sha256sum "${ARCHIVE}" > "${ARCHIVE}.sha256"
+          if command -v zip >/dev/null 2>&1; then
+            (cd staging && zip -r "../${ARCHIVE}" "codescape-${VERSION}")
+          else
+            # windows-latest's Git Bash has no zip binary. Fall back to the
+            # JDK's own `jar` (always present here via actions/setup-java).
+            # jar doesn't preserve unix executable permission bits, but that
+            # only matters for bin/codescape-service and bin/codescape-mcp
+            # (the bash launchers) — irrelevant on Windows, which has no
+            # such bits and uses the .bat launchers instead.
+            (cd staging && jar cf "../${ARCHIVE}" "codescape-${VERSION}")
+          fi
+
+          if command -v sha256sum >/dev/null 2>&1; then
+            sha256sum "${ARCHIVE}" > "${ARCHIVE}.sha256"
+          else
+            # macOS ships BSD shasum, not GNU sha256sum.
+            shasum -a 256 "${ARCHIVE}" > "${ARCHIVE}.sha256"
+          fi
 
       - name: Upload release assets
         shell: bash
