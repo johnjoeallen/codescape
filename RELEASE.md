@@ -164,16 +164,19 @@ consistent with CodeScape's local-first, developer-machine-scoped design
 unzip codescape-<version>-<platform>.zip -d codescape
 cd codescape
 
-# 2. Start the repository-management service.
-#    On first run this creates ~/.codescape/ (db, index, content, workspaces).
+# 2. Start the repository-management service (background/managed process
+#    — leave it running). On first run this creates ~/.codescape/
+#    (db, index, content, workspaces).
 ./bin/codescape-service
 
-# 3. In a separate terminal (or as a background/managed process),
-#    start the MCP adapter, which talks to the service over HTTP.
-./bin/codescape-mcp
-
-# 4. Point your MCP-compatible AI agent/client at the codescape-mcp process
-#    (stdio or configured transport — see codescape-mcp --help).
+# 3. Point your MCP-aware IDE/client at codescape-mcp via its own MCP
+#    config (it spawns the process itself over stdio) — see
+#    docs/ide-setup.md. Use the *full absolute path* to bin/codescape-mcp
+#    in that config, not a relative one — the IDE won't run it with your
+#    shell's working directory. Running codescape-mcp directly in a
+#    terminal with no arguments starts the same stdio server and just
+#    blocks waiting for JSON-RPC input; to manually smoke-test it
+#    against the service instead, use `./bin/codescape-mcp list`.
 ```
 
 Configuration (ports, `~/.codescape` location override, log level) lives

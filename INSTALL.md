@@ -60,17 +60,23 @@ Start the repository-management service first. On first run it creates
 ./bin/codescape-service
 ```
 
-In a separate terminal (or as a background/managed process), start the MCP
-adapter, which talks to the service over HTTP:
+`codescape-mcp` is the MCP adapter, which talks to the service over HTTP.
+You don't normally run it yourself: with no arguments it starts a real
+MCP stdio JSON-RPC server that blocks waiting for input, meant to be
+spawned by an MCP-aware IDE via a config entry (using the *full absolute
+path* to `bin/codescape-mcp` — the IDE won't run it with your shell's
+working directory) rather than run directly in a terminal.
+
+To manually confirm `codescape-mcp` can reach the service without
+configuring a whole IDE, use its CLI subcommands instead, which print a
+result and exit immediately:
 
 ```
-./bin/codescape-mcp
+./bin/codescape-mcp list
 ```
 
-Then point your MCP-compatible AI agent/client at the `codescape-mcp`
-process — for VS Code and IntelliJ IDEA specifically, most IDEs spawn
-`codescape-mcp` themselves via a config entry rather than you running it
-directly like this; see [IDE Setup](ide-setup.md).
+For VS Code and IntelliJ IDEA specifically, see [IDE Setup](ide-setup.md)
+for the exact config entry each expects.
 
 On Windows, use `bin\codescape-service.bat` and `bin\codescape-mcp.bat`.
 
