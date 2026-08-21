@@ -1,7 +1,7 @@
 # Release & Packaging
 
 This document describes CodeScape's release workflow and the shape of a
-distributed release, as built by [`release.yml`](.github/workflows/release.yml)
+distributed release, as built by [`release.yml`](https://github.com/johnjoeallen/codescape/blob/main/.github/workflows/release.yml)
 on a `vX.Y.Z` tag push.
 
 ## What gets released
