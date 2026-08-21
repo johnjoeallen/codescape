@@ -113,6 +113,13 @@ through the same capability-driven API surface.
 - Capability negotiation: only advertise tools a given source actually
   supports.
 
+**Progress:** the real stdio transport is in (`initialize`, `tools/list`,
+`tools/call` over newline-delimited JSON-RPC 2.0), with one tool live —
+`list_sources`. See [IDE Setup](https://johnjoeallen.github.io/codescape/ide-setup/)
+to try it. The rest of the tool surface above is still pending, mostly
+blocked on backend capabilities (search indexing in particular) that
+don't exist yet.
+
 **Exit criteria:** an MCP-connected AI agent can register a source,
 search it, branch/build in a workspace, and inspect GitHub PRs entirely
 through MCP tool calls, with zero direct filesystem/Git access to the
