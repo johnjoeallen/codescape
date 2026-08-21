@@ -27,7 +27,14 @@ JAR="$(ls "$DIST_DIR"/lib/codescape-service-*.jar | head -n1)"
 JAVA_HOME_FILE="$DIST_DIR/.java-home"
 
 java_major_version() {
-  "$1" -version 2>&1 | head -n1 | grep -oE '"[0-9]+' | tr -d '"'
+  # grep across the whole output, THEN take the first match — not
+  # `head -n1` before grep. Some environments force extra preamble lines
+  # onto every JVM invocation before the real version line (e.g. a
+  # globally-set JAVA_TOOL_OPTIONS makes the JVM print "Picked up
+  # JAVA_TOOL_OPTIONS: ..." to stderr first), which head -n1-before-grep
+  # would grab instead of the actual "openjdk version "N..."" line,
+  # silently reporting no version found for a perfectly good install.
+  "$1" -version 2>&1 | grep -oE '"[0-9]+' | head -n1 | tr -d '"'
 }
 
 is_java_25_plus() {
