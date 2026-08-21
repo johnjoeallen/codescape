@@ -63,6 +63,7 @@ if defined JAVA_HOME_FLAG (
     echo codescape: using Java 25+ at '%JAVA_HOME_FLAG%' ^(saved to %JAVA_HOME_FILE% -- will be used automatically next time, no need to pass --java-home again^) 1>&2
   ) else (
     echo codescape: --java-home '%JAVA_HOME_FLAG%' doesn't look like a Java 25+ install; ignoring it and checking other options. 1>&2
+    call :explain_java_home_failure "%JAVA_HOME_FLAG%"
   )
 )
 
@@ -125,5 +126,20 @@ set "JAVA_HOME_BIN="
 if exist "%~1\bin\java.exe" (
   call :check_java_version "%~1\bin\java.exe"
   if "!VERSION_OK!"=="1" set "JAVA_HOME_BIN=%~1\bin\java.exe"
+)
+goto :eof
+
+:explain_java_home_failure
+rem %1 = a JAVA_HOME-style directory that check_java_home_dir rejected.
+rem Prints why: no java.exe found, or found one but running it failed or
+rem reported an unexpected version. Only called for --java-home, since
+rem that's the one interactive/user-invoked check worth explaining in
+rem detail -- the .java-home/JAVA_HOME/PATH checks stay silent on
+rem failure.
+if exist "%~1\bin\java.exe" (
+  echo codescape:   found "%~1\bin\java.exe"; running it -version gave: 1>&2
+  "%~1\bin\java.exe" -version 1>&2
+) else (
+  echo codescape:   no bin\java.exe found under "%~1". 1>&2
 )
 goto :eof
