@@ -103,8 +103,13 @@ jobs:
           chmod +x "$STAGE/bin/codescape-service" "$STAGE/bin/codescape-mcp"
           cp dist/config/application.yml "$STAGE/config/"
 
-          cp jars/codescape-service-*.jar "$STAGE/lib/"
-          cp jars/codescape-mcp-*.jar "$STAGE/lib/"
+          # actions/upload-artifact preserves each glob's directory structure
+          # relative to the repo root when the inputs don't share a common
+          # parent (codescape-service/target/... vs codescape-mcp/target/...),
+          # so the downloaded jars aren't flat under jars/ — find them instead
+          # of assuming a path shape.
+          cp "$(find jars -name 'codescape-service-*.jar')" "$STAGE/lib/"
+          cp "$(find jars -name 'codescape-mcp-*.jar')" "$STAGE/lib/"
 
           cp LICENSE README.md AGENTS.md INSTALL.md "$STAGE/"
 
