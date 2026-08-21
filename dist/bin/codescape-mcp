@@ -9,11 +9,14 @@ JAR="$(ls "$DIST_DIR"/lib/codescape-mcp-*.jar | head -n1)"
 JAVA_BIN="java"
 if [ -x "$DIST_DIR/runtime/bin/java" ]; then
   JAVA_BIN="$DIST_DIR/runtime/bin/java"
-elif [ -x "$DIST_DIR/runtime/bin/java.exe" ]; then
+elif [ -f "$DIST_DIR/runtime/bin/java.exe" ]; then
   # Windows build's jlink runtime — reached when this script runs under
-  # Git Bash/MSYS/WSL rather than the .bat launcher. Named explicitly
-  # rather than relying on MSYS's implicit .exe resolution for the
-  # extensionless name, which isn't consistent enough to depend on.
+  # Git Bash/MSYS/WSL rather than the .bat launcher. Existence check
+  # (-f), not -x: the archive's zip entries don't carry a Unix exec bit
+  # for this file (built with `jar cf`, since windows-latest's Git Bash
+  # has no `zip` — see release.yml), so MSYS's permission emulation sees
+  # it as non-executable after extraction even though Windows itself
+  # doesn't care and will happily run any .exe regardless of that bit.
   JAVA_BIN="$DIST_DIR/runtime/bin/java.exe"
 fi
 
